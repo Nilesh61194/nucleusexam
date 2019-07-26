@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eb4b980fc84942bc82be48af6f133000" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.EA_ExamMaster" Width="1.5" PointX="8.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.Grade" Width="1.5" PointX="2.375" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.WorkingStaffList" Width="1.5" PointX="6.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.AcademicYear" Width="1.5" PointX="0.625" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.GradeSection" Width="1.5" PointX="0.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.Section" Width="1.5" PointX="0.625" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.GradeSectionMapping" Width="1.5" PointX="4.125" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.EA_StudentEnrollment" Width="1.5" PointX="2.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.EA_TeacherEnrollment" Width="1.5" PointX="4.375" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.EA_ExamAnswerMaster" Width="1.5" PointX="4.375" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.EA_StaffRights" Width="1.5" PointX="4.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="INVENTORY.MDFModel.StudentCurrentGradeSectionDetails" Width="1.5" PointX="2.5" PointY="7.75" IsExpanded="true" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

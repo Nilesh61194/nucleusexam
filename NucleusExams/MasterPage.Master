@@ -1,0 +1,122 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="NucleusExams.MasterPage" %>
+
+
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png" />
+    <title>Exam Portal</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/fullcalendar.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/select2.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/plugins/morris/morris.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" />
+        <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server"></telerik:RadAjaxLoadingPanel>
+        <telerik:RadScriptManager EnablePartialRendering="true" EnablePageMethods="true" ID="RadScriptManager1" runat="server">
+            <Scripts>
+                <%--Needed for JavaScript IntelliSense in VS2010--%>
+                <%--For VS2008 replace RadScriptManager with ScriptManager--%>
+                <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.Core.js" />
+                <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQuery.js" />
+                <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQueryInclude.js" />
+            </Scripts>
+        </telerik:RadScriptManager>
+        <div class="main-wrapper">
+            <div class="header">
+                <div class="header-left">
+                    <asp:HyperLink runat="server" ID="lnklogo" NavigateUrl="~/Home.aspx" class="logo">
+                        <asp:Image ID="Image1" ImageUrl="~/assets/img/nucleus_Logo.png" Width="60" Height="60" runat="server" />
+                    </asp:HyperLink>
+                </div>
+                <div class="page-title-box pull-left">
+                    <h3>NUCLEUS</h3>
+
+                </div>
+                <a id="mobile_btn" class="mobile_btn pull-left" href="#sidebar"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                <ul class="nav user-menu pull-right">
+                    <li class="nav-item dropdown has-arrow">
+                        <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                            <span class="user-img">
+                                <asp:Image ID="UserImg" runat="server" class="rounded-circle" Width="40" />
+                            </span>
+                            <asp:Label ID="lblUserName" runat="server" Text=""></asp:Label>
+                        </a>
+                        <div class="dropdown-menu">
+                            <asp:LinkButton ID="lbtnLogout" class="dropdown-item" runat="server" OnClick="lbtnLogout_Click">Logout</asp:LinkButton>
+                        </div>
+                </ul>
+                <ul class="nav user-menu pull-right">
+                    <li class="nav-item dropdown has-arrow">
+                        <div class="dropdown-menu">
+                            <asp:LinkButton ID="LNKLogout" class="dropdown-item" runat="server">Logout</asp:LinkButton>
+                        </div>
+                    </li>
+                </ul>
+                <div class="dropdown mobile-user-menu pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <asp:LinkButton ID="LinkButton2" class="dropdown-item" OnClick="lbtnLogout_Click" runat="server">Logout</asp:LinkButton>
+
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-inner slimscroll">
+                    <div id="sidebar-menu" class="sidebar-menu">
+                        <ul>
+                            <li class="menu-title">Main</li>
+                            <li runat="server" id="LiCreateExam">
+                                <asp:HyperLink ID="LnkCreateExam" runat="server" NavigateUrl="~/Home.aspx"><i class="fa fa-dashboard " aria-hidden="true"></i> Create Exam </asp:HyperLink>
+                            </li>
+                            <li runat="server" id="LiAssignToStudent">
+                                <asp:HyperLink ID="LnkAssignToStudent" runat="server" NavigateUrl="~/AssignToStudent.aspx"><i class="fa fa-user" aria-hidden="true"></i>Assign to Student</asp:HyperLink>
+                            </li>
+                            <li runat="server" id="LiAssignToTeacher">
+                                <asp:HyperLink ID="lnkAssignToTeacher" runat="server" NavigateUrl="~/AssignToTeacher.aspx"><i class="fa fa-user-secret" aria-hidden="true"></i>Assign to Teacher</asp:HyperLink>
+                            </li>
+                            <li runat="server" id="LiMyExam">
+                                <asp:HyperLink ID="LnkMyExam" runat="server" NavigateUrl="~/MyExam.aspx"><i class="fa fa-desktop" aria-hidden="true"></i>My Exam</asp:HyperLink>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-overlay" data-reff=""></div>
+        <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+        <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../assets/js/jquery.slimscroll.js"></script>
+        <script type="text/javascript" src="../assets/js/select2.min.js"></script>
+        <script type="text/javascript" src="../assets/js/moment.min.js"></script>
+        <script type="text/javascript" src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/morris/morris.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/raphael/raphael-min.js"></script>
+        <script type="text/javascript" src="../assets/js/app.js"></script>
+        <%--<script type="text/javascript" src="../assets/js/bootstrap-modal.js"></script>--%>
+    </form>
+</body>
+</html>
