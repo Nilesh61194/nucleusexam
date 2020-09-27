@@ -1,0 +1,1 @@
+{"result":{"text":"bevelled 10 over 0\nspace plus space square root of 10\n10 subscript 4"},"status":"ok"}

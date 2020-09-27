@@ -1,0 +1,1 @@
+{"result":{"text":"10 over 5 plus space fraction numerator begin display style bevelled 10 over 45 end style over denominator 5 end fraction"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"root index blank of bevelled blank to the power of blank subscript blank over blank end root"},"status":"ok"}

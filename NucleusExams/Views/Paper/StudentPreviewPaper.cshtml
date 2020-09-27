@@ -1,0 +1,377 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Preview</title>
+    <link rel="Shortcut Icon" href="../../Images/Nucleus_16.png" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/ckeditor4/ckeditor.js"></script>
+    <link href="~/Content/all.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <style>
+        .CustomFontSize {
+            text-align: justify;
+            font-size: larger;
+            font-weight: bold;
+            background-color: #9fd8fb;
+            /*background-color: #9fd8fb;*/
+        }
+
+        #load {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 9999;
+            background: url("../../Images/loading.gif") no-repeat center center rgba(0,0,0,0.25);
+            /*background: url("../../Images/Logo/Nucleus.gif") no-repeat center center rgba(0,0,0,0.25);*/
+        }
+
+        .CustomTopMargin {
+            margin-top: 1% !important;
+        }
+
+        .clsTxt {
+            width: 100%;
+            min-height: 50px;
+            max-height: none;
+            resize: none;
+            border-style: solid;
+            border-width: 3px;
+            border-color: black !important;
+            overflow-y: hidden;
+        }
+
+        .btnCustome {
+            background-color: dodgerblue !important;
+            margin: unset !important;
+            padding: 0px 10px !important;
+            margin-top: 2px !important;
+        }
+
+        .borderClass {
+            border-style: solid;
+            border-width: 3px;
+        }
+
+        .divComment {
+            border-style: solid;
+            padding: 5px;
+            overflow-wrap: break-word;
+            width: 100%;
+            background-color: cornsilk;
+            font-weight: bold;
+            text-align: justify !important;
+        }
+    </style>
+
+    <script>
+        document.onreadystatechange = function () {
+            var state = document.readyState
+            if (state == 'interactive') {
+                document.getElementById('contents').style.visibility = "hidden";
+            } else if (state == 'complete') {
+                setTimeout(function () {
+                    document.getElementById('interactive');
+                    document.getElementById('load').style.visibility = "hidden";
+                    document.getElementById('contents').style.visibility = "visible";
+                    BindAnswer();
+                }, 1000);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="load"></div>
+    <div id="contents">
+
+        <div class="container" ng-app="" runat="server" id="divAll">
+            @if (ViewBag.Student != null)
+            {
+                foreach (var student in ViewBag.Student)
+                {
+                    <div class="row col-md-12 col-lg-12 ">
+                        <div class="float-left col-md-6 col-lg-6">
+                            <img src="~/Images/Logo/FS_Logo.png" />
+                        </div>
+                        <div class="col-md-6 col-lg-6" style="text-align: end">
+                            <label id="lblStudentHeaderName" Font-Bold="true">@student.FirstName @student.LastName </label>
+                            <br />
+                            <label ID="lblTimer"></label>
+                            <input type="hidden" id="hfStudentID" value="@student.StudentID" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 text-center">
+                            <strong>
+                                <label id="lblGradeSubjectName" Font-Bold="true">@student.SectionName </label>
+                            </strong>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <div class="row text-right">
+                                <div class="col-md-12" id="divTotalMarks">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="container" id="divQuestion">
+            @if (ViewBag.Question != null)
+            {
+                foreach (var item in ViewBag.Question)
+                {
+                    <input type="hidden" id="hfExamID" value="@item.ExamID" />
+
+
+                    if (item.QuestionType == "TextBox")
+                    {
+                        <div class="row">
+                            <div class="CustomFontSize form-control-custom col-md-12">
+                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                            </div>
+                            <div class="custome_col_md_12">
+                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                <input type="text" onkeypress="return event.keyCode!=13;" class="form-control CustomTopMargin" id="@id" style="width: 100%;" disabled />
+                            </div>
+                        </div>
+                                    }
+                                    else if (item.QuestionType == "Editor")
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                            </div>
+
+                                            <div class="custome_col_md_12 CustomTopMargin">
+                                                @*@Html.TextBoxFor(e => item.QuestionID)*@
+                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                <div id="@id" class="borderClass" style="padding:5px!important;"></div>
+                                            </div>
+                                        </div>
+                                                    }
+                                                    else if (item.QuestionType == "DropDown")
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                            </div>
+
+                                                            <div class="custome_col_md_12">
+                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                @{ string optionvalue = "Select Your Answer," + item.Options;
+                                                                    List<string> options = optionvalue.Split(',').ToList();
+
+                                                                }
+                                                                @Html.DropDownList(id, new SelectList(options), new { onchange = "SaveForDropdown(" + id + ")", Class = "form-control CustomTopMargin", @disabled = "disabled" })
+                                                            </div>
+                                                        </div>
+
+                                                                    }
+                                                                    else if (item.QuestionType == "CheckBox")
+                                                                    {
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                            </div>
+
+                                                                            <div class="custome_col_md_12">
+                                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                @{ string optionvalue = item.Options;
+                                                                                    List<string> options = optionvalue.Split(',').ToList();
+
+                                                                                }
+
+                                                                                @foreach (var val in options)
+                                                                                {
+                                                                                    <input id="@id" type="checkbox" value="@val" name="@id" onchange="return SaveForCheck('@id');" disabled /> @val<br />
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                                    }
+                                                                                    else if (item.QuestionType == "RadioButton")
+                                                                                    {
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                                            </div>
+
+                                                                                            <div class="custome_col_md_12">
+                                                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                                @{ string optionvalue = item.Options;
+                                                                                                    List<string> options = optionvalue.Split(',').ToList();
+
+                                                                                                }
+                                                                                                @foreach (var val in options)
+                                                                                                {
+                                                                                                    <input id="@id" type="radio" name="@id" value="@val" onchange="return SaveForRadio('@id');" disabled /> @val <br />
+                                                                                                }
+                                                                                            </div>
+                                                                                        </div>
+                                                                                                    }
+                                                                                                    else if (item.QuestionType == "MediumTextBox")
+                                                                                                    {
+                                                                                                        <div class="row">
+                                                                                                            <div class="CustomFontSize form-control-custom col-md-12">
+                                                                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                                                            </div>
+                                                                                                            <div class="custome_col_md_12">
+                                                                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                                                @*<input type="text" onkeypress="return event.keyCode!=13;" class="form-control CustomTopMargin" id="@id" style="width: 100%;" disabled />*@
+                                                                                                                <textarea class="form-control CustomTopMargin" rows="5" id="@id" style="width: 100%;" onfocus="return startAutoSave('@id');" onblur="return StopAutoSaveTextBox('@id');" disabled></textarea>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                                    }
+                                                                                                                    <br />
+
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="custome_col_md_11">
+                                                                                                                            @{ string divid = "divComment" + item.QuestionID;}
+                                                                                                                            @{ string Markid = "txtMarkComment" + item.QuestionID;}
+                                                                                                                            <div id="@divid" class="divComment"></div>
+                                                                                                                        </div>
+                                                                                                                        <div class="col-md-1">
+                                                                                                                            <input type="text" class="borderClas" maxlength="2" id="@Markid" style="width: 100%!important" placeholder="marks" disabled />
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <br />
+                                                                                                                                    }
+                                                                                                                                }
+
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+
+        BindCommentMarks();
+
+    });
+
+    function BindAnswer() {
+
+        $.ajax({
+            url: "@Url.Content("/api/Exam/getEA_ExamAnswerMasterByStudentIDExamID")",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: {
+                "ExamID": document.getElementById('hfExamID').value,
+                "StudentID": document.getElementById('hfStudentID').value
+            },
+            dataType: "json",
+            success: function (response) {
+                response = JSON.parse(response);
+                if (response) {
+                    console.info(response);
+                    debugger;
+                    for (var i = 0; i < response.length; i++) {
+
+                        debugger;
+
+
+                        if (response[i].QuestionType == "TextBox") {
+                            $("#" + response[i].QID).val(response[i].Answer);
+                        }
+                        else if (response[i].QuestionType == "MediumTextBox") {
+                            $("#" + response[i].QID).val(response[i].Answer);
+                        }
+                        else if (response[i].QuestionType == "Editor") {
+                            // $("#" + response[i].QID).val(response[i].Answer);
+                            var id = response[i].QID;
+                            var answer = response[i].Answer;
+                            document.getElementById(id).innerHTML = answer;
+                        }
+                        else if (response[i].QuestionType == "DropDown") {
+                            $("#" + response[i].QID).val(response[i].Answer);
+
+                        }
+                        else if (response[i].QuestionType == "RadioButton") {
+
+                            var ele = document.getElementsByName(response[i].QID);
+
+                            for (j = 0; j < ele.length; j++) {
+                                if (ele[j].value == response[i].Answer) {
+                                    ele[j].checked = true;
+                                }
+                            }
+                        }
+                        else if (response[i].QuestionType == "CheckBox") {
+                            debugger;
+
+                            var radio = document.getElementsByName('' + response[i].QID + '');
+                            var AnswerArr = response[i].Answer.split(',');
+                            for (var j = 0; j < AnswerArr.length; j++) {
+                                for (var k = 0; k < radio.length; k++) {
+                                    if (radio[k].type == 'checkbox' && radio[k].value == AnswerArr[j]) {
+                                        radio[k].checked = true;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            },
+
+            error: function (x, e) {
+                console.log(x.responseText);
+                alert('Somethig went wrong.');
+            }
+        });
+
+    }
+
+
+    function BindCommentMarks() {
+
+        debugger;
+
+        var totalmarks = 0;
+        $.ajax({
+            url: "@Url.Content("/api/Exam/getEA_ExamCommentScoreMasterStudentIDExamID")",
+            data: { 'StudentID': document.getElementById('hfStudentID').value, ExamID: document.getElementById('hfExamID').value },
+            type: "GET",
+            async: false,
+            success: function (data) {
+                debugger;
+                data = JSON.parse(data);
+                var TotalMarks = 0;
+
+                var Row;
+
+                for (var n = 0; n < data.length; n++) {
+                    Row = data[n]["QID"];
+                    var res = Row.substr(13, Row.length);
+                    var markid = "txtMarkComment" + res;
+                    var commentid = "divComment" + res;
+                    document.getElementById(commentid).innerText = data[n]["Comment"];
+                    document.getElementById(markid).value = data[n]["ObtainScore"];
+                    TotalMarks = TotalMarks + parseFloat(data[n]["ObtainScore"]);
+
+                }
+
+
+                document.getElementById("divTotalMarks").innerText = "Obtained Marks : " + TotalMarks;
+
+                //document.getElementById("divGrade").innerText = "Grade : " + calculateGrade(totalmarks);
+
+            },
+            error: function (x, e) {
+                alert('Response from database of answer error');
+            }
+
+        });
+    }
+
+</script>

@@ -40,13 +40,13 @@ namespace NucleusExams {
         protected global::System.Web.UI.WebControls.HiddenField hfloggedInStaffID;
         
         /// <summary>
-        /// upSetSession control.
+        /// upForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upSetSession;
+        protected global::System.Web.UI.UpdatePanel upForm;
         
         /// <summary>
         /// ddlAcademicYear control.
@@ -146,6 +146,60 @@ namespace NucleusExams {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnDeleteAssign;
+        
+        /// <summary>
+        /// pChartExamStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadHtmlChart pChartExamStatus;
+        
+        /// <summary>
+        /// lblTotalStudent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalStudent;
+        
+        /// <summary>
+        /// lblStartExam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStartExam;
+        
+        /// <summary>
+        /// lblNotStartExam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNotStartExam;
+        
+        /// <summary>
+        /// lblFinishExam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFinishExam;
+        
+        /// <summary>
+        /// lblNotFinishExam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNotFinishExam;
         
         /// <summary>
         /// upnlShowStudentList control.

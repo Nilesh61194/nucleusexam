@@ -7,8 +7,8 @@
     <title>Start Exam</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="../Scripts/jquery.min.js"></script>
+    <script src="../Scripts/bootstrap.min-3.4.0.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <link href="../Content/popup.css" rel="stylesheet" />
@@ -40,7 +40,6 @@
 
             return true;
         }
-
     </script>
 </head>
 <body>
@@ -60,8 +59,7 @@
                 </div>
             </div>
             <div id="div1" class="text-center" runat="server">
-                <strong>MYP TERM 2 EXAMINATION (April 2019)
-                    <br />
+                <strong>
                     <asp:Label ID="lblGradeSubjectName" Font-Bold="true" runat="server"></asp:Label></strong>
             </div>
 

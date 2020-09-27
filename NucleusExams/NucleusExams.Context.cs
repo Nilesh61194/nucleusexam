@@ -37,8 +37,12 @@ namespace NucleusExams
         public virtual DbSet<EA_StudentEnrollment> EA_StudentEnrollment { get; set; }
         public virtual DbSet<EA_TeacherEnrollment> EA_TeacherEnrollment { get; set; }
         public virtual DbSet<EA_ExamAnswerMaster> EA_ExamAnswerMaster { get; set; }
-        public virtual DbSet<EA_StaffRights> EA_StaffRights { get; set; }
         public virtual DbSet<StudentCurrentGradeSectionDetails> StudentCurrentGradeSectionDetails { get; set; }
+        public virtual DbSet<EA_ExamCommentScoreMaster> EA_ExamCommentScoreMaster { get; set; }
+        public virtual DbSet<EA_QuestionMaster> EA_QuestionMaster { get; set; }
+        public virtual DbSet<EA_StaffRights> EA_StaffRights { get; set; }
+        public virtual DbSet<EA_OptionMaster> EA_OptionMaster { get; set; }
+        public virtual DbSet<EA_ExamRightsMaster> EA_ExamRightsMaster { get; set; }
     
         public virtual int ea_spiEA_ExamMaster(string examName, Nullable<decimal> gradeID, string subjectName, Nullable<int> duration, Nullable<decimal> createdBy, Nullable<bool> iSExamCode, string examCode, Nullable<System.DateTime> examDate, string examURL)
         {
@@ -95,7 +99,7 @@ namespace NucleusExams
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_ExamMaster_Result>("ea_spgEA_ExamMaster");
         }
     
-        public virtual int ea_spuEA_ExamMaster(Nullable<decimal> examID, string examName, Nullable<decimal> gradeID, string subjectName, Nullable<int> duration, Nullable<decimal> createdBy, Nullable<bool> iSExamCode, string examCode, Nullable<System.DateTime> examDate, string examURL)
+        public virtual int ea_spuEA_ExamMaster(Nullable<decimal> examID, string examName, Nullable<decimal> gradeID, string subjectName, Nullable<int> duration, Nullable<decimal> createdBy, Nullable<System.DateTime> examDate, string examURL)
         {
             var examIDParameter = examID.HasValue ?
                 new ObjectParameter("ExamID", examID) :
@@ -121,14 +125,6 @@ namespace NucleusExams
                 new ObjectParameter("CreatedBy", createdBy) :
                 new ObjectParameter("CreatedBy", typeof(decimal));
     
-            var iSExamCodeParameter = iSExamCode.HasValue ?
-                new ObjectParameter("ISExamCode", iSExamCode) :
-                new ObjectParameter("ISExamCode", typeof(bool));
-    
-            var examCodeParameter = examCode != null ?
-                new ObjectParameter("ExamCode", examCode) :
-                new ObjectParameter("ExamCode", typeof(string));
-    
             var examDateParameter = examDate.HasValue ?
                 new ObjectParameter("ExamDate", examDate) :
                 new ObjectParameter("ExamDate", typeof(System.DateTime));
@@ -137,16 +133,7 @@ namespace NucleusExams
                 new ObjectParameter("ExamURL", examURL) :
                 new ObjectParameter("ExamURL", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spuEA_ExamMaster", examIDParameter, examNameParameter, gradeIDParameter, subjectNameParameter, durationParameter, createdByParameter, iSExamCodeParameter, examCodeParameter, examDateParameter, examURLParameter);
-        }
-    
-        public virtual ObjectResult<ea_spgEA_ExamMasterByExamID_Result> ea_spgEA_ExamMasterByExamID(Nullable<decimal> examID)
-        {
-            var examIDParameter = examID.HasValue ?
-                new ObjectParameter("ExamID", examID) :
-                new ObjectParameter("ExamID", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_ExamMasterByExamID_Result>("ea_spgEA_ExamMasterByExamID", examIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spuEA_ExamMaster", examIDParameter, examNameParameter, gradeIDParameter, subjectNameParameter, durationParameter, createdByParameter, examDateParameter, examURLParameter);
         }
     
         public virtual ObjectResult<spgStudentCurrentGradeSectionDetailsBySectionID_Result> spgStudentCurrentGradeSectionDetailsBySectionID(string sectionID)
@@ -158,7 +145,7 @@ namespace NucleusExams
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spgStudentCurrentGradeSectionDetailsBySectionID_Result>("spgStudentCurrentGradeSectionDetailsBySectionID", sectionIDParameter);
         }
     
-        public virtual int ea_spiEA_StudentEnrollment(Nullable<decimal> studentID, Nullable<decimal> examID)
+        public virtual int ea_spiEA_StudentEnrollment(Nullable<decimal> studentID, Nullable<decimal> examID, Nullable<decimal> staffID)
         {
             var studentIDParameter = studentID.HasValue ?
                 new ObjectParameter("StudentID", studentID) :
@@ -168,10 +155,14 @@ namespace NucleusExams
                 new ObjectParameter("ExamID", examID) :
                 new ObjectParameter("ExamID", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spiEA_StudentEnrollment", studentIDParameter, examIDParameter);
+            var staffIDParameter = staffID.HasValue ?
+                new ObjectParameter("StaffID", staffID) :
+                new ObjectParameter("StaffID", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spiEA_StudentEnrollment", studentIDParameter, examIDParameter, staffIDParameter);
         }
     
-        public virtual int ea_spiEA_TeacherEnrollment(Nullable<decimal> staffID, Nullable<decimal> examID)
+        public virtual int ea_spiEA_TeacherEnrollment(Nullable<decimal> staffID, Nullable<decimal> examID, Nullable<decimal> entryBy)
         {
             var staffIDParameter = staffID.HasValue ?
                 new ObjectParameter("StaffID", staffID) :
@@ -181,7 +172,11 @@ namespace NucleusExams
                 new ObjectParameter("ExamID", examID) :
                 new ObjectParameter("ExamID", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spiEA_TeacherEnrollment", staffIDParameter, examIDParameter);
+            var entryByParameter = entryBy.HasValue ?
+                new ObjectParameter("EntryBy", entryBy) :
+                new ObjectParameter("EntryBy", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spiEA_TeacherEnrollment", staffIDParameter, examIDParameter, entryByParameter);
         }
     
         public virtual int ea_spiEA_ExamAnswerMaster(string qID, Nullable<decimal> studentID, string answer, Nullable<decimal> examID)
@@ -337,6 +332,127 @@ namespace NucleusExams
                 new ObjectParameter("AssignBy", typeof(decimal));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spiEA_StaffRights", staffIDParameter, iSRightsParameter, iSAdminRightsParameter, assignByParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgEA_StudentEnrollmentandStatusByExamID_Result> ea_spgEA_StudentEnrollmentandStatusByExamID(Nullable<decimal> examID)
+        {
+            var examIDParameter = examID.HasValue ?
+                new ObjectParameter("ExamID", examID) :
+                new ObjectParameter("ExamID", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_StudentEnrollmentandStatusByExamID_Result>("ea_spgEA_StudentEnrollmentandStatusByExamID", examIDParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgExamStartFinishStatuByExamID_Result> ea_spgExamStartFinishStatuByExamID(Nullable<decimal> examID)
+        {
+            var examIDParameter = examID.HasValue ?
+                new ObjectParameter("ExamID", examID) :
+                new ObjectParameter("ExamID", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgExamStartFinishStatuByExamID_Result>("ea_spgExamStartFinishStatuByExamID", examIDParameter);
+        }
+    
+        public virtual int ea_spiEA_ExamCommentScoreMaster(Nullable<decimal> examID, string qID, Nullable<decimal> studentID, string comment, string scoreType, string obtainScore, Nullable<decimal> commentBy)
+        {
+            var examIDParameter = examID.HasValue ?
+                new ObjectParameter("ExamID", examID) :
+                new ObjectParameter("ExamID", typeof(decimal));
+    
+            var qIDParameter = qID != null ?
+                new ObjectParameter("QID", qID) :
+                new ObjectParameter("QID", typeof(string));
+    
+            var studentIDParameter = studentID.HasValue ?
+                new ObjectParameter("StudentID", studentID) :
+                new ObjectParameter("StudentID", typeof(decimal));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            var scoreTypeParameter = scoreType != null ?
+                new ObjectParameter("ScoreType", scoreType) :
+                new ObjectParameter("ScoreType", typeof(string));
+    
+            var obtainScoreParameter = obtainScore != null ?
+                new ObjectParameter("ObtainScore", obtainScore) :
+                new ObjectParameter("ObtainScore", typeof(string));
+    
+            var commentByParameter = commentBy.HasValue ?
+                new ObjectParameter("CommentBy", commentBy) :
+                new ObjectParameter("CommentBy", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ea_spiEA_ExamCommentScoreMaster", examIDParameter, qIDParameter, studentIDParameter, commentParameter, scoreTypeParameter, obtainScoreParameter, commentByParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgEA_QuestionMasterByExamID_Result> ea_spgEA_QuestionMasterByExamID(Nullable<decimal> examID)
+        {
+            var examIDParameter = examID.HasValue ?
+                new ObjectParameter("ExamID", examID) :
+                new ObjectParameter("ExamID", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_QuestionMasterByExamID_Result>("ea_spgEA_QuestionMasterByExamID", examIDParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgEA_QuestionMasterByExamID1_Result> ea_spgEA_QuestionMasterByExamID1(Nullable<decimal> examID)
+        {
+            var examIDParameter = examID.HasValue ?
+                new ObjectParameter("ExamID", examID) :
+                new ObjectParameter("ExamID", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_QuestionMasterByExamID1_Result>("ea_spgEA_QuestionMasterByExamID1", examIDParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgEA_ExamMasterByExamID_Result> ea_spgEA_ExamMasterByExamID(Nullable<decimal> examID)
+        {
+            var examIDParameter = examID.HasValue ?
+                new ObjectParameter("ExamID", examID) :
+                new ObjectParameter("ExamID", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_ExamMasterByExamID_Result>("ea_spgEA_ExamMasterByExamID", examIDParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgEA_ExamMasterByStaffID_Result> ea_spgEA_ExamMasterByStaffID(Nullable<int> staffID, Nullable<bool> isAdmin)
+        {
+            var staffIDParameter = staffID.HasValue ?
+                new ObjectParameter("StaffID", staffID) :
+                new ObjectParameter("StaffID", typeof(int));
+    
+            var isAdminParameter = isAdmin.HasValue ?
+                new ObjectParameter("IsAdmin", isAdmin) :
+                new ObjectParameter("IsAdmin", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_ExamMasterByStaffID_Result>("ea_spgEA_ExamMasterByStaffID", staffIDParameter, isAdminParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID_Result> ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID(Nullable<decimal> gradeID, Nullable<decimal> academicYearID, Nullable<decimal> createdBy)
+        {
+            var gradeIDParameter = gradeID.HasValue ?
+                new ObjectParameter("GradeID", gradeID) :
+                new ObjectParameter("GradeID", typeof(decimal));
+    
+            var academicYearIDParameter = academicYearID.HasValue ?
+                new ObjectParameter("AcademicYearID", academicYearID) :
+                new ObjectParameter("AcademicYearID", typeof(decimal));
+    
+            var createdByParameter = createdBy.HasValue ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID_Result>("ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID", gradeIDParameter, academicYearIDParameter, createdByParameter);
+        }
+    
+        public virtual ObjectResult<ea_spgEA_QuestionMasterByExamIDStudentID_Result> ea_spgEA_QuestionMasterByExamIDStudentID(Nullable<decimal> examID, Nullable<decimal> studentID)
+        {
+            var examIDParameter = examID.HasValue ?
+                new ObjectParameter("ExamID", examID) :
+                new ObjectParameter("ExamID", typeof(decimal));
+    
+            var studentIDParameter = studentID.HasValue ?
+                new ObjectParameter("StudentID", studentID) :
+                new ObjectParameter("StudentID", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ea_spgEA_QuestionMasterByExamIDStudentID_Result>("ea_spgEA_QuestionMasterByExamIDStudentID", examIDParameter, studentIDParameter);
         }
     }
 }

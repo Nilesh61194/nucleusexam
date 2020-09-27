@@ -12,7 +12,7 @@ import Listeners from './listeners';
 import Image from './image';
 import ServiceProvider from './serviceprovider';
 import ModalDialog from './modal';
-// import { ServiceProviderProperties, ServiceProvider } from './serviceprovider';
+import './polyfills';
 import '../styles/styles.css';
 
 /**
@@ -345,8 +345,15 @@ export default class Core {
    * @param {Window} windowTarget - The window element where the editable content is.
    * @param {String} mathml - The MathML.
    * @param {Array.<Object>} wirisProperties - The extra attributes for the formula.
+   * @returns {ReturnObject} - Object with the information of the node or latex to insert.
    */
   insertFormula(focusElement, windowTarget, mathml, wirisProperties) {
+    /**
+     * It is the object with the information of the node or latex to insert.
+     * @typedef ReturnObject
+     * @property {Node} [node] - The DOM node to insert.
+     * @property {String} [latex] - The latex to insert.
+     */
     const returnObject = {};
 
     if (!mathml) {
@@ -519,6 +526,9 @@ export default class Core {
         item.endPosition);
     } else {
       if (element && element.nodeName.toLowerCase() === 'img') { // Editor empty, formula has been erased on edit.
+        // There are editors (e.g: CKEditor) that put attributes in images.
+        // We don't allow that behaviour in our images.
+        Image.removeImgDataAttributes(this.editionProperties.temporalImage);
         // Clone is needed to maintain event references to temporalImage.
         Image.clone(element, this.editionProperties.temporalImage);
       } else {
@@ -672,7 +682,13 @@ export default class Core {
     }
     // Custom editor parameters.
     const editorAttributes = {};
-    Object.assign(editorAttributes, defaultEditorAttributes, Configuration.get('editorParameters'));
+    // Editor parameters in backend, usually configuration.ini.
+    const serverEditorParameters = Configuration.get('editorParameters');
+    // Editor parameters through JavaScript configuration.
+    const cliendEditorParameters = this.integrationModel.editorParameters;
+    Object.assign(editorAttributes, defaultEditorAttributes, serverEditorParameters);
+    Object.assign(editorAttributes, defaultEditorAttributes, cliendEditorParameters);
+
     editorAttributes.language = this.language;
     editorAttributes.rtl = this.integrationModel.rtl;
 

@@ -9,7 +9,7 @@
     <title>Demo Paper</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />--%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
@@ -17,43 +17,9 @@
     <link href="../Content/popup.css" rel="stylesheet" />
     <script src="../assets/js/sweetalert-dev.js"></script>
     <script src="../ckeditor4/ckeditor.js"></script>
+    <script src="../ckeditor4/config.js"></script>
 </head>
 <body>
-    <script type="text/javascript">
-        function addZero(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
-        }
-        function startQuestionTimer() {
-            debugger;
-
-            var currentTime = '<%= Session["ExamTimer"] %>';
-            setInterval(function () {
-                if (currentTime != "") {
-
-                    var date1 = new Date(currentTime);
-                    var date2 = new Date();
-                    date2.setSeconds(date2.getSeconds() + 10);
-                    console.log("starttime : =" + currentTime + "CurrentTime : =" + date2);
-                    var diff = new Date(date2 - date1);
-                    var hour = addZero(diff.getUTCHours());
-                    var min = addZero(diff.getUTCMinutes());
-                    var sec = addZero(diff.getUTCSeconds());
-                    var duration = '120';
-                    document.getElementById('lblTimer').innerHTML = hour + ":" + min + ":" + sec + " / " + duration;
-                }
-                else {
-                    var data = document.getElementById('lblTimer');
-                    if (data != null) {
-                        document.getElementById('lblTimer').innerHTML = '--';
-                    }
-                }
-            }, 1000);
-        }
-
-    </script>
     <script>
         $(document).ready(function () {
             window.setInterval(function () {
@@ -62,10 +28,6 @@
             }, 10000);
         });
 
-        //function StopSave() {
-        //    clearInterval(10000);
-        //}
-
         function ErrorFunction(msg) {
             swal("Error", msg, "error");
         }
@@ -73,7 +35,36 @@
         function OpenWindow() {
             //Open the Popup window
             //Change the pagename here
-            window.open('https://www.desmos.com/scientific', '_blank', 'height=450,width=500,scrollbars=0,location=1,toolbar=0');
+            window.open('https://www.desmos.com/scientific', '_blank', 'height=450,width=500,scrollbars=0,location=1,toolbar=0,margin-left=50%');
+            return false;
+        }
+
+        function VennWindow(PageLink) {
+            //Open the Popup window
+            //Change the pagename here
+            xposition = 0; yposition = 0;
+            if ((parseInt(navigator.appVersion) >= 4)) {
+                xposition = (screen.width - 750);
+                yposition = (screen.height - 550);
+            }
+
+            var args = "";
+            args += "width=" + 750 + "," + "height=" + 600 + ","
+            + "location=0,"
+            + "menubar=0,"
+            + "resizable=0,"
+            + "scrollbars=0,"
+            + "statusbar=false,dependent,alwaysraised,"
+            + "status=false,"
+            + "titlebar=no,"
+            + "toolbar=0,"
+            + "hotkeys=0,"
+            + "screenx=" + xposition + ","  //NN Only
+            + "screeny=" + yposition + ","  //NN Only
+            + "left=" + xposition + ","     //IE Only
+            + "top=" + yposition;           //IE Only
+
+            window.open(PageLink, '_blank', args);
             return false;
         }
 
@@ -149,7 +140,39 @@
 
         }
 
+        function addZero(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
 
+        function startQuestionTimer() {
+            debugger;
+
+            var currentTime = '<%= Session["ExamTimer"] %>';
+            setInterval(function () {
+                if (currentTime != "") {
+
+                    var date1 = new Date(currentTime);
+                    var date2 = new Date();
+                    date2.setSeconds(date2.getSeconds() + 10);
+                    console.log("starttime : =" + currentTime + "CurrentTime : =" + date2);
+                    var diff = new Date(date2 - date1);
+                    var hour = addZero(diff.getUTCHours());
+                    var min = addZero(diff.getUTCMinutes());
+                    var sec = addZero(diff.getUTCSeconds());
+                    var duration = '120 minute';
+                    document.getElementById('lblTimer').innerHTML = hour + ":" + min + ":" + sec + " / " + duration;
+                }
+                else {
+                    var data = document.getElementById('lblTimer');
+                    if (data != null) {
+                        document.getElementById('lblTimer').innerHTML = '--';
+                    }
+                }
+            }, 1000);
+        }
     </script>
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server" ID="scriptManager1"></asp:ScriptManager>
@@ -172,7 +195,6 @@
                     <asp:Label ID="lblGradeSubjectName" Font-Bold="true" runat="server"></asp:Label></strong>
             </div>
             <div id="divTools" class="text-right">
-                <a href="../DemoPages/DrawingTools.aspx" target="_blank" class="fa fa-edit fa-2x"></a>&nbsp;&nbsp;
                 <a class="fa fa-calculator fa-2x" onclick="return OpenWindow();"></a>
             </div>
             <div class="container">
@@ -180,18 +202,18 @@
                 <div id="myCarousel" class="carousel slide" runat="server" data-ride="carousel" data-interval="false" data-keyboard="false">
                     <!-- Indicators data-ride="carousel" -->
 
-
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
-
                         <div class="item active">
-
                             <div style="margin: 20px">
                                 <h3>Question Related to Venn Diagram</h3>
                                 <b>Question Venn Diagram - 1 </b><span class="float-right"><b>[Criterion A strand ii), Criterion B strands (i & ii)]</b></span><br />
                                 <b>Construct </b>Venn Diagram to represent each of the following set:
                                 <br />
-                                <p>1. ( A’ ∪ B’ )’</p>
+                                <p>
+                                    1. ( A’ ∪ B’ )’&nbsp;
+                                <b><a onclick="return VennWindow('../DemoPages/DrawingTools.aspx?QID=txtQuestion13');">Click here</a></b>
+                                </p>
 
                                 <telerik:RadEditor ContentAreaMode="Div" AutoResizeHeight="true" NewLineBr="true" ContentFilters="None" RenderMode="Lightweight" Skin="MetroTouch" Style="margin-top: 7px;" Height="400px" EditModes="Design" EmptyMessage="Write Answer" Width="100%" runat="server" ID="txtQuestion13" ExternalDialogsPath="~/RadEditorDialogs/">
                                     <Tools>
@@ -202,11 +224,17 @@
                                         </telerik:EditorToolGroup>
                                     </Tools>
                                 </telerik:RadEditor>
+                                <asp:TextBox Style="height: 400px; width: 100%" runat="server" TextMode="MultiLine">
+
+                                </asp:TextBox>
                                 <br />
                                 <b>Question Venn Diagram - 2 </b><span class="float-right"><b>[Criterion A strand iii, Criterion B strands (i & ii)]</b></span><br />
                                 <b>Construct </b>Venn Diagram to represent each of the following set:
                                     <br />
-                                <p>2. A ∩ ( B ∪ C )’</p>
+                                <p>
+                                    2. A ∩ ( B ∪ C )’ &nbsp;
+                                <b><a onclick="return VennWindow('../DemoPages/DrawingTools.aspx?QID=txtQuestion14');">Click here</a></b>
+                                </p>
 
                                 <telerik:RadEditor ContentAreaMode="Div" AutoResizeHeight="true" NewLineBr="true" ContentFilters="None" RenderMode="Lightweight" Skin="MetroTouch"
                                     Style="margin-top: 7px;" Height="400px" EditModes="Design" EmptyMessage="Write Answer" Width="100%" runat="server" ID="txtQuestion14" ExternalDialogsPath="~/RadEditorDialogs/">
@@ -220,7 +248,7 @@
                                 </telerik:RadEditor>
                                 <br />
                                 <b>Question Venn Diagram - 3</b><span class="float-right"><b>[Criterion A strand iii, Criterion B strands (i & ii)]</b></span><br />
-                                3. <b>Draw </b>Venn Diagram in specific image    <b><a href="../DemoPages/Tool3.aspx" target="_blank">Click on me</a></b>
+                                3. <b>Draw </b>Venn Diagram in specific image    <b><a onclick="return VennWindow('https://exam.fountainheadschools.org/DemoPages/Tool3.aspx','txtQuestion15');">Click here</a></b>
                                 <br />
                                 <telerik:RadEditor ContentAreaMode="Div" AutoResizeHeight="true" NewLineBr="true" ContentFilters="None" RenderMode="Lightweight" Skin="MetroTouch"
                                     Style="margin-top: 7px;" Height="400px" EditModes="Design" EmptyMessage="Write Answer" Width="100%" runat="server" ID="txtQuestion15" ExternalDialogsPath="~/RadEditorDialogs/">
@@ -234,6 +262,7 @@
                                 </telerik:RadEditor>
                             </div>
                         </div>
+
                         <div class="item">
                             <div style="margin: 20px">
                                 <div class="table-responsive">
@@ -648,11 +677,10 @@
                                         Click on finish button to finish exam.
                                     </h3>
                                     <input type="button" id="btnMainFinish" onclick="FinishExam();" value="Finish Exam" class="btn btn-info" />
-                                    <asp:Button ID="btnFinish" runat="server" OnClick="btnFinish_Click" Style="display: none;" />
+                                    <asp:Button ID="btnFinish" runat="server" OnClientClick="btnFinish_Click" Style="display: none;" />
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="row" style="align-content: center;">
@@ -664,8 +692,6 @@
                                 <span class="sr-only">Previous</span>
                             </a>
                         </div>
-                        <div>
-                        </div>
                         <div class="col-lg-1">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a class="right" href="#myCarousel" data-slide="next">
@@ -675,8 +701,7 @@
                         </div>
                         <div class="col-lg-5"></div>
                     </div>
-
-                  <%--  <ol>
+                    <ol>
                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                         <li data-target="#myCarousel" data-slide-to="1"></li>
                         <li data-target="#myCarousel" data-slide-to="2"></li>
@@ -685,16 +710,14 @@
                         <li data-target="#myCarousel" data-slide-to="5"></li>
                         <li data-target="#myCarousel" data-slide-to="6"></li>
                         <li data-target="#myCarousel" data-slide-to="7"></li>
-                    </ol>--%>
+                    </ol>
                 </div>
                 <div id="divExamFinish" class="text-center" runat="server">
                     <strong>Your Exam is over
                     </strong>
                 </div>
             </div>
-
         </div>
-
     </form>
 </body>
 </html>

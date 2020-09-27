@@ -56,5 +56,6 @@ namespace NucleusExams
         public string IFSCCode { get; set; }
         public string NameAsPerBankAccount { get; set; }
         public string CompanyEntityName { get; set; }
+        public string ReportingToName { get; set; }
     }
 }

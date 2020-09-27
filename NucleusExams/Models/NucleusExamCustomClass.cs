@@ -10,6 +10,7 @@ namespace NucleusExams.Models
 
     }
 
+
     public class ExamMaster
     {
         private decimal examID;
@@ -56,6 +57,7 @@ namespace NucleusExams.Models
 
 
         private decimal createdBy;
+        private decimal updatedBy;
 
         private decimal academicYearID;
         public decimal AcademicYearID
@@ -136,6 +138,19 @@ namespace NucleusExams.Models
             }
         }
 
+
+        public DateTime UpdatedDate
+        {
+            get
+            {
+                return updatedDate;
+            }
+
+            set
+            {
+                updatedDate = value;
+            }
+        }
         public string ExamURL
         {
             get
@@ -175,6 +190,20 @@ namespace NucleusExams.Models
             }
         }
 
+
+        public decimal UpdatedBy
+        {
+            get
+            {
+                return updatedBy;
+            }
+
+            set
+            {
+                updatedBy = value;
+            }
+        }
+
         private string subjectName;
 
 
@@ -190,7 +219,7 @@ namespace NucleusExams.Models
         private DateTime examDate;
 
 
-
+        private DateTime updatedDate;
 
         private string examURL;
 
@@ -264,5 +293,48 @@ namespace NucleusExams.Models
 
     }
 
+    public class EA_QuestionMasterCustome
+    {
+        public int QuestionID { get; set; }
+        public Nullable<decimal> ExamID { get; set; }
+        public string QuestionType { get; set; }
+        public Nullable<int> QuestionMarks { get; set; }
+        public string Question { get; set; }
+        public Nullable<decimal> EntryBy { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
 
+        public string Options { get; set; }
+
+    }
+
+
+    public class OptionMaster
+    {
+        public int OptionID { get; set; }
+        public Nullable<decimal> ExamID { get; set; }
+        public string OptionValue { get; set; }
+        public Nullable<bool> IsRightAnswer { get; set; }
+        public Nullable<decimal> EntryBy { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
+        public Nullable<int> QuestionID { get; set; }
+    }
+
+    //public class EA_StudentEnrollment
+    //{
+    //    public decimal ES_EnrollmentID { get; set; }
+    //    public decimal StudentID { get; set; }
+    //    public decimal ExamID { get; set; }
+    //    public decimal GradeID { get; set; }
+    //    public decimal SectionID { get; set; }
+    //    public System.DateTime ExamStartTime { get; set; }
+    //    public System.DateTime ExamEndTime { get; set; }
+    //    public System.DateTime ActualStartTime { get; set; }
+    //    public System.DateTime ActualEndTime { get; set; }
+    //    public int Duration { get; set; }
+    //    public System.DateTime AssignDate { get; set; }
+    //    public bool ISExamEnable { get; set; }
+    //    public bool ISExamFinish { get; set; }
+    //    public decimal EntryBy { get; set; }
+    //    public System.DateTime EntryDate { get; set; }
+    //}
 }

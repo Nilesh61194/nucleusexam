@@ -67,11 +67,12 @@ namespace NucleusExams.Controllers
         [HttpGet]
         public Boolean IsRightsOnExam(string StaffMailID)
         {
+            
             try
             {
                 dbEntities obj = new dbEntities();
 
-                int staffID = obj.WorkingStaffList.Where(x => x.WorkEmail == StaffMailID).Select(x => x.StaffMasterID).Single();
+                int staffID = obj.WorkingStaffList.Where(x => x.WorkEmail == StaffMailID).Select(x => x.StaffMasterID).SingleOrDefault();
 
                 if (staffID != 0)
                 {
@@ -96,8 +97,6 @@ namespace NucleusExams.Controllers
                 return false;
             }
         }
-
-
 
     }
 }

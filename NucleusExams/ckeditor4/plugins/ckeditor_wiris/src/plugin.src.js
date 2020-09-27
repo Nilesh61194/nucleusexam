@@ -338,7 +338,7 @@ export class CKEditor4Integration extends IntegrationModel {
                 ckeditorIntegrationModelProperties.serviceProviderProperties = {};
                 ckeditorIntegrationModelProperties.serviceProviderProperties.URI = 'integration';
                 ckeditorIntegrationModelProperties.serviceProviderProperties.server = 'aspx';
-                ckeditorIntegrationModelProperties.version = '7.13.1.1421';
+                ckeditorIntegrationModelProperties.version = '7.17.0.1426';
                 ckeditorIntegrationModelProperties.scriptName = "plugin.js";
                 ckeditorIntegrationModelProperties.environment = {};
                 ckeditorIntegrationModelProperties.environment.editor = "CKEditor4";

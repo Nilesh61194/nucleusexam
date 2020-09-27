@@ -1,0 +1,736 @@
+﻿@model IEnumerable<NucleusExams.EA_QuestionMaster>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Exam Paper</title>
+    <link rel="Shortcut Icon" href="../../Images/Nucleus_16.png" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/ckeditor4/ckeditor.js"></script>
+    <link href="~/Content/all.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <style>
+        .CustomFontSize {
+            text-align: justify;
+            font-size: larger;
+            font-weight: bold;
+            background-color: #9fd8fb;
+        }
+
+        #load {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 9999;
+            background: url("../../Images/loading.gif") no-repeat center center rgba(0,0,0,0.25);
+            /*background: url("../../Images/Logo/Nucleus.gif") no-repeat center center rgba(0,0,0,0.25);*/
+        }
+
+        .CustomTopMargin {
+            margin-top: 1% !important;
+        }
+    </style>
+
+    <script>
+        document.onreadystatechange = function () {
+            var state = document.readyState
+            if (state == 'interactive') {
+                document.getElementById('contents').style.visibility = "hidden";
+            } else if (state == 'complete') {
+                setTimeout(function () {
+                    document.getElementById('interactive');
+                    document.getElementById('load').style.visibility = "hidden";
+                    document.getElementById('contents').style.visibility = "visible";
+                    BindAnswer();
+                }, 1000);
+            }
+        }
+    </script>
+</head>
+<body onload="return CallExamChecking();">
+    <div id="load"></div>
+    @if (ViewBag.IsExamActive)
+    {
+
+        if (ViewBag.IsExamActiveForStudent)
+        {
+
+
+            <div class="container" id="divAll">
+                <div class="row col-md-12 col-lg-12 ">
+                    <div class="float-left col-md-6 col-lg-6">
+                        <img src="~/Images/Logo/FS_Logo.png" /><br />
+                    </div>
+                    @*<div class="col-md-6 col-lg-6" style="text-align: end">
+
+                            <asp:Label ID="lblStudentHeaderName" runat="server" Font-Bold="true"></asp:Label>
+                            <br />
+                            <asp:Label ID="lblTimer" runat="server" ClientIDMode="Static"></asp:Label>
+                        </div>*@
+                </div>
+                @*<div id="div1" class="text-center" runat="server">
+                        <strong>
+                            <asp:Label ID="lblGradeSubjectName" Font-Bold="true" runat="server"></asp:Label>
+                        </strong>
+                    </div>*@
+
+                @*<div id="divSomethingWentWrong" class="text-center" runat="server">
+                        <strong>
+                            Something Went Wrong
+                            <br />
+                            Please check your url
+                        </strong>
+                    </div>*@
+
+                @*<div id="divExamError" class="text-center" runat="server">
+                        <strong>
+                            Exam is not started yet
+                        </strong>
+                    </div>*@
+                @*<div id="divExamFinish" class="text-center" runat="server">
+                        <strong>
+                            Your Exam is over
+                        </strong>
+                    </div>*@
+
+                <div id="divPreInstruction" runat="server">
+                    <div class="row table-bordered border-dark">
+                        <div class="col-md-12 text-center">
+                            <strong class="text-capitalize">
+                                <u>School Code: 004196</u>
+                            </strong>
+                        </div>
+                        @foreach (var student in ViewBag.Student)
+                        {
+                            <div class="row col-md-12 col-sm-12 col-lg-12" style="margin-top: 2%">
+                                <div class="col-sm-6">
+                                    <strong>Name of Student:</strong>
+
+                                    <label id="lblSTudentName">@student.FirstName @student.LastName</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Section:</strong>
+                                    <label id="lblSectionName">@student.SectionName</label>
+                                </div>
+                            </div>
+                            <div class="row col-md-12 col-sm-12 col-lg-12" style="margin-top: 2%">
+                                <div class="col-sm-6">
+                                    <strong>Grade:</strong>
+                                    <label id="lblGradeName">@student.GradeName</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Roll No:</strong>
+                                    <label ID="lblRollNo">@student.RollNo</label>
+                                </div>
+                            </div>
+                            <div class="row  col-md-12 col-sm-12 col-lg-12" style="margin-top: 2%">
+                                <div class="col-sm-6">
+                                    <strong>Subject:</strong>
+                                    <label id="lblSubjectName">Language & Literature</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Duration:</strong>
+                                    <label id="lblDuration">120</label>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12" style="margin-top: 2%">
+                            <b>Enter Access Token :</b>
+                            <input type="text" id="txtAccessToken" onkeypress="return isNumberKey(event)" maxlength="8" />
+                            @*<%--OnClientClick="return StartSave();"--%>*@
+                            <input type="button" id="btnStartExam" onclick="return StartSave();" CssClass="btn-success float-right" value="Start Exam" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contents">
+                @if (ViewBag.ExamStatus)
+                {
+                    <div class="container" ng-app="" runat="server">
+                        @if (ViewBag.Student != null)
+                        {
+                            foreach (var student in ViewBag.Student)
+                            {
+                                <div class="row col-md-12 col-lg-12 ">
+                                    <div class="float-left col-md-6 col-lg-6">
+                                        <img src="~/Images/Logo/FS_Logo.png" />
+                                    </div>
+                                    <div class="col-md-6 col-lg-6" style="text-align: end">
+                                        <label id="lblStudentHeaderName" Font-Bold="true">@student.FirstName @student.LastName </label>
+                                        <br />
+                                        <label ID="lblTimer"></label>
+                                        <input type="hidden" id="hfStudentID" value="@student.StudentID" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4 text-center">
+                                        <strong>
+                                            <label id="lblGradeSubjectName" Font-Bold="true">@ViewBag.GradeSubject</label>
+                                        </strong>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-2 text-right">
+                                        @*<div class="row">
+                                                <div class="col-md-6">
+                                                    <a class="fa fa-calculator fa-2x" onclick="return OpenWindow();" href="#"></a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a class="fa fa-tools fa-2x" href="http://idprm.ibo.org/m19.html#/English" target="_blank"></a>
+                                                    <br />
+                                                    <b>Source</b>
+                                                </div>
+                                            </div>*@
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="container" id="divQuestion">
+                        @if (ViewBag.Question != null)
+                        {
+                            foreach (var item in ViewBag.Question)
+                            {
+                                <input type="hidden" id="hfExamID" value="@item.ExamID" />
+
+
+                                if (item.QuestionType == "TextBox")
+                                {
+                                    <div class="row">
+                                        <div class="CustomFontSize form-control-custom col-md-12">
+                                            @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                        </div>
+                                        <div class="custome_col_md_12">
+                                            @{ string id = "txtQuestion" + item.QuestionID;}
+                                            <input type="text" onkeypress="return event.keyCode!=13;" class="form-control CustomTopMargin" id="@id" style="width: 100%;" onfocus="return startAutoSave('@id');" onblur="return StopAutoSaveTextBox('@id');" />
+                                        </div>
+                                    </div>
+                                                }
+                                                else if (item.QuestionType == "Editor")
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-control-custom CustomFontSize">
+                                                            @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                        </div>
+
+                                                        <div class="custome_col_md_12 CustomTopMargin">
+                                                            @*@Html.TextBoxFor(e => item.QuestionID)*@
+                                                            @{ string id = "txtQuestion" + item.QuestionID;}
+                                                            @Html.TextBox(id)
+                                                            <script type="text/javascript" lang="javascript">CKEDITOR.replace(@id);</script>
+                                                        </div>
+                                                    </div>
+                                                                }
+                                                                else if (item.QuestionType == "DropDown")
+                                                                {
+                                                                    <div class="row">
+                                                                        <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                            @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                        </div>
+
+                                                                        <div class="custome_col_md_12">
+                                                                            @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                            @{ string optionvalue = "Select Your Answer," + item.Options;
+                                                                                List<string> options = optionvalue.Split(',').ToList();
+
+                                                                            }
+                                                                            @Html.DropDownList(id, new SelectList(options), new { onchange = "SaveForDropdown(" + id + ")", Class = "form-control CustomTopMargin" })
+                                                                        </div>
+                                                                    </div>
+
+                                                                                }
+                                                                                else if (item.QuestionType == "CheckBox")
+                                                                                {
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                            @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                                        </div>
+
+                                                                                        <div class="custome_col_md_12">
+                                                                                            @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                            @{ string optionvalue = item.Options;
+                                                                                                List<string> options = optionvalue.Split(',').ToList();
+
+                                                                                            }
+
+                                                                                            @foreach (var val in options)
+                                                                                            {
+                                                                                                <input id="@id" type="checkbox" value="@val" name="@id" onchange="return SaveForCheck('@id');" /> @val<br />
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                                }
+                                                                                                else if (item.QuestionType == "RadioButton")
+                                                                                                {
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                                            @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                                                        </div>
+
+                                                                                                        <div class="col-md-12">
+                                                                                                            @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                                            @{ string optionvalue = item.Options;
+                                                                                                                List<string> options = optionvalue.Split(',').ToList();
+
+                                                                                                            }
+                                                                                                            @foreach (var val in options)
+                                                                                                            {
+                                                                                                                <input id="@id" type="radio" name="@id" value="@val" onchange="return SaveForRadio('@id');" /> @val <br />
+                                                                                                            }
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                                }
+
+                                                                                                                else if (item.QuestionType == "MediumTextBox")
+                                                                                                                {
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                                                            @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                                                                        </div>
+
+                                                                                                                        <div class="custome_col_md_12">
+                                                                                                                            @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                                                            @*<input type="text" onkeypress="return event.keyCode!=13;" class="form-control CustomTopMargin" id="@id" style="width: 100%;" onfocus="return startAutoSave('@id');" onblur="return StopAutoSaveTextBox('@id');" />*@
+                                                                                                                            <textarea class="form-control CustomTopMargin" rows="5" id="@id" style="width: 100%;" onfocus="return startAutoSave('@id');" onblur="return StopAutoSaveTextBox('@id');"></textarea>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                                }
+
+                                                                                                                                <br />
+
+                                                                                                                                    }
+                                                                                                                                }
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <input type="button" id="btnMainFinish" onclick="FinishExam();" value="Finish Exam" class="btn btn-info" />
+                            </div>
+                        </div>
+
+                    </div>
+                                                                                                                                }
+                                                                                                                                else
+                                                                                                                                {
+                                                                                                                                    <div id="divExamFinish" class="text-center" runat="server">
+                                                                                                                                        <strong>
+                                                                                                                                            Your Exam is over
+                                                                                                                                        </strong>
+                                                                                                                                    </div>
+                                                                                                                                }
+
+                <div id="divExamFinishByStudent" class="text-center" runat="server" style="display:none">
+                    <strong>
+                        Your Exam is over <br />
+                        best of luck for next exam.
+                    </strong>
+                </div>
+            </div>
+                                                                                                                                }
+                                                                                                                                else
+                                                                                                                                {
+                                                                                                                                    <div id="divExamNotForStudentActive" class="text-center">
+                                                                                                                                        <strong>
+                                                                                                                                            Exam is not active for you
+                                                                                                                                        </strong>
+                                                                                                                                    </div>
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                                else
+                                                                                                                                {
+                                                                                                                                    <div id="divExamNotActive" class="text-center">
+                                                                                                                                        <strong>
+                                                                                                                                            Exam is not active
+                                                                                                                                        </strong>
+                                                                                                                                    </div>
+                                                                                                                                }
+</body>
+</html>
+<script>
+    var myVar;
+    var myTimer;
+    var myVarCKE;
+
+    function CallExamChecking() {
+        debugger;
+        var IsExamStart = "@ViewBag.IsExamStartByStudent";
+        console.log(IsExamStart);
+        if (IsExamStart == "True") {
+            document.getElementById('divAll').style.display = 'none';
+            document.getElementById('contents').style.display = 'block';
+            //$("#divAlll").hide();
+            //$("#contents").show();
+        }
+        else {
+            //$("#divAlll").show();
+            //$("#contents").hide();
+            document.getElementById('contents').style.display = 'none';
+            document.getElementById('divAll').style.display = 'block';
+        }
+    }
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function StartSave() {
+        debugger;
+
+        var AccessCode = document.getElementById("txtAccessToken").value;
+
+        if (AccessCode == "" || AccessCode.length < 8) {
+            //swal("Error", "Enter Access Code ...!!", "error");
+            alert('Entered access code is wrong...!!');
+            return false;
+        }
+        else {
+
+
+            if (AccessCode == "@ViewBag.ExamCode") {
+                UpdateStartExamTime();
+                document.getElementById('divAll').style.display = 'none';
+                document.getElementById('contents').style.display = 'block';
+            }
+            else {
+                //swal("Error", "Entered access code is wrong...!!", "error");
+                alert('Entered access code is wrong...!!');
+            }
+        }
+        //$("#divAlll").hide();
+        //$("#contents").show();
+    }
+
+    function UpdateStartExamTime() {
+        var Obj = {};
+        Obj.StudentID = document.getElementById('hfStudentID').value; //document.getElementById('<%= hfStudentID.ClientID%>').value;
+        Obj.ExamID = document.getElementById('hfExamID').value;
+
+        $.ajax({
+            url: "@Url.Content("/api/Student/UpdateExamStartTimeByExamIDStudentID")",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(Obj),
+            dataType: "json",
+            success: function (response) {
+                if (response) {
+                    return true;
+                }
+                else {
+                    alert("Exam is not Save ...!");
+                    console.log(ControlID);
+                }
+            },
+
+            error: function (x, e) {
+                console.log(x.responseText);
+                alert('Answer is not save.\nSomethig went wrong.');
+            }
+        });
+
+    }
+
+
+
+    // FOR ON FOCUS AND LOST FOCUS CKEDITOR
+    CKEDITOR.on('instanceReady', function (evt) {
+        var editor = evt.editor;
+        editor.on('focus', function (e) {
+            //  debugger;
+            // startAutoSaveCkeditor(e.editor.name);
+
+            console.log('The editor named ' + e.editor.name + ' is now focused');
+            startAutoSaveCKE(e.editor.name);
+
+        });
+
+        editor.on('blur', function (e) {
+            // StopAutoSave(e.editor.name);
+
+            console.log('The editor named ' + e.editor.name + ' is lost focused');
+            StopAutoSave(e.editor.name);
+        });
+
+    });
+
+    function startAutoSave(id) {
+        //  debugger;
+        myVar = setInterval(function () { callSave(id); }, 10000);
+    }
+
+    function startAutoSaveCKE(id) {
+        //  debugger;
+        myVarCKE = setInterval(function () { SaveCKE(id); }, 10000);
+    }
+
+    function StopSave() {
+        console.log('Internat is not available');
+        clearInterval(myVar);
+        clearInterval(myVarCKE);
+    }
+
+    function StopAutoSave(id) {
+        //debugger;
+        if (id != null) {
+            var value = CKEDITOR.instances["" + id + ""].getData();
+            if (value != "") {
+                SaveAnswer(id, value);
+            }
+            console.log('Saved stop ' + id);
+            clearInterval(myVar);
+            clearInterval(myVarCKE);
+        }
+    }
+
+    function callSave(control) {
+        debugger;
+        var id = control;
+        var value = $('#' + id).val(); //document.getElementById("" + id + ""); //document.getElementById("" + id + "").value;
+        if (value != "") {
+            SaveAnswer(id, value);
+        }
+    }
+
+    function StopAutoSaveTextBox(id) {
+        //debugger;
+        if (id != null) {
+            callSave(id);
+            console.log('Saved stop ' + id);
+            clearInterval(myVar);
+        }
+    }
+    function SaveCKE(id) {
+        var value = CKEDITOR.instances["" + id + ""].getData();
+        if (value != "") {
+            SaveAnswer(id, value);
+        }
+    }
+
+    function SaveAnswer(ControlID, value) {
+        // debugger;
+        var EAM = {};
+        EAM.StudentID = document.getElementById('hfStudentID').value; //document.getElementById('<%= hfStudentID.ClientID%>').value;
+        EAM.ExamID = document.getElementById('hfExamID').value; //document.getElementById('<%= hfExamID.ClientID%>').value;
+        EAM.QID = ControlID;
+        EAM.Answer = value;
+        $.ajax({
+            url: "@Url.Content("/api/Exam/insertEA_ExamAnswerMaster")",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(EAM),
+            dataType: "json",
+            success: function (response) {
+
+                if (response) {
+                    //alert("save");
+                    console.log("Saved Answer " + ControlID);
+                }
+                else {
+                    alert("Exam is not Save ...!");
+                    console.log(ControlID);
+                }
+            },
+
+            error: function (x, e) {
+                console.log(x.responseText);
+                alert('Answer is not save.\nSomethig went wrong.');
+            }
+        });
+    }
+
+    function SaveForDropdown(id) {
+
+        console.log(id.value);
+        if (id.value != "Select Your Answer ") {
+            SaveAnswer(id.id, id.value);
+        }
+
+    }
+
+    function SaveForRadio(id) {
+        debugger;
+
+        var ele = document.getElementsByName(id);
+
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].checked) {
+                SaveAnswer(ele[i].id, ele[i].value);
+            }
+        }
+
+
+    }
+
+
+    function SaveForCheck(id) {
+        debugger;
+
+        var ele = id;
+
+        var radio = document.getElementsByName('' + ele + '');
+        val = "";
+        // var labels = radio.getElementsByTagName("label");
+
+        for (i = 0; i < radio.length; i++) {
+            if (radio[i].type == 'checkbox' && radio[i].checked == true) {
+                if (val == "") {
+                    val = radio[i].value;
+                }
+                else {
+                    val = val + "," + radio[i].value;
+                }
+
+            }
+        }
+
+        SaveAnswer(ele, val);
+    }
+
+    function FinishExam() {
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            var retVal = confirm("Are you sure you want to finish the exam?");
+            if (retVal == true) {
+                UpdateFinishExam();
+            } else {
+                return false;
+            }
+        } else {
+            alert('Your wi-fi connection is lost.\nPlease check your wi-fi connection.');
+        }
+
+    }
+
+
+    function UpdateFinishExam() {
+        // debugger;
+
+        $.ajax({
+            url: "@Url.Content("/api/Student/UpdateExamEndTimeByExamIDStudentID")",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: {
+                "ExamID": document.getElementById('hfExamID').value,
+                "StudentID": document.getElementById('hfStudentID').value
+            },
+            dataType: "json",
+            success: function (response) {
+
+                if (response) {
+                    document.getElementById("divExamFinishByStudent").style.display = "block";
+                    document.getElementById("divAll").style.display = "none";
+                    document.getElementById("divQuestion").style.display = "none";
+                    console.log("Exam is Finish");
+
+                }
+                else {
+                    alert("Exam is not Save ...!");
+                }
+            },
+
+            error: function (x, e) {
+                console.log(x.responseText);
+                alert('Answer is not save.\nSomethig went wrong.');
+            }
+        });
+    }
+
+
+    function BindAnswer() {
+
+        $.ajax({
+            url: "@Url.Content("/api/Exam/getEA_ExamAnswerMasterByStudentIDExamID")",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            data: {
+                "ExamID": document.getElementById('hfExamID').value,
+                "StudentID": document.getElementById('hfStudentID').value
+            },
+            dataType: "json",
+            success: function (response) {
+                response = JSON.parse(response);
+                if (response) {
+                    console.info(response);
+                    debugger;
+                    for (var i = 0; i < response.length; i++) {
+
+                        debugger;
+
+
+                        if (response[i].QuestionType == "TextBox") {
+                            $("#" + response[i].QID).val(response[i].Answer);
+                        }
+                        else if (response[i].QuestionType == "MediumTextBox") {
+                            $("#" + response[i].QID).val(response[i].Answer);
+                        }
+                        else if (response[i].QuestionType == "Editor") {
+                            // $("#" + response[i].QID).val(response[i].Answer);
+                            var id = response[i].QID;
+                            var answer = response[i].Answer;
+                            CKEDITOR.instances["" + id + ""].setData(answer, function () {
+                                this.checkDirty();
+                            });
+                        }
+                        else if (response[i].QuestionType == "DropDown") {
+                            $("#" + response[i].QID).val(response[i].Answer);
+
+                        }
+                        else if (response[i].QuestionType == "RadioButton") {
+
+                            var ele = document.getElementsByName(response[i].QID);
+
+                            for (j = 0; j < ele.length; j++) {
+                                if (ele[j].value == response[i].Answer) {
+                                    ele[j].checked = true;
+                                }
+                            }
+                        }
+                        else if (response[i].QuestionType == "CheckBox") {
+                            debugger;
+
+                            var radio = document.getElementsByName('' + response[i].QID + '');
+                            var AnswerArr = response[i].Answer.split(',');
+                            for (var j = 0; j < AnswerArr.length; j++) {
+                                for (var k = 0; k < radio.length; k++) {
+                                    if (radio[k].type == 'checkbox' && radio[k].value == AnswerArr[j]) {
+                                        radio[k].checked = true;
+                                    }
+                                }
+                            }
+
+                        }
+
+                        //alert(response[i].QID + "\n" + response[i].QuestionType + "\n" + response[i].Answer);
+
+                    }
+
+
+                }
+
+            },
+
+            error: function (x, e) {
+                console.log(x.responseText);
+                alert('Somethig went wrong.');
+            }
+        });
+
+
+
+    }
+
+</script>

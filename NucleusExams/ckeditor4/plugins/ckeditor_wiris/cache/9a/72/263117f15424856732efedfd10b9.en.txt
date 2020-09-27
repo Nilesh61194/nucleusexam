@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator 20 plus space begin display style bevelled 10 over 5 end style over denominator 21 end fraction"},"status":"ok"}

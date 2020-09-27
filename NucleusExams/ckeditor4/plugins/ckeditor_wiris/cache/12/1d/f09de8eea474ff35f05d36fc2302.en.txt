@@ -1,0 +1,1 @@
+{"result":{"text":"10 over 1 space plus space 10"},"status":"ok"}

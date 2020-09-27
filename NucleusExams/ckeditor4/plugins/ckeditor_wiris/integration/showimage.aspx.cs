@@ -17,13 +17,15 @@ namespace plugin_web
             String digest = provider.getParameter("formula", null);
             String mml = provider.getParameter("mml", null);
 
-            if (digest==null && mml==null) {
+            if (digest == null && mml == null)
+            {
                 throw new Exception("Missing parameters 'formula' or 'mml'.");
             }
             // Backwards compatibility
             // showimage.php?formula.png --> showimage.php?formula
             // because formula is md5 string, remove all extensions.
-            if (digest != null && digest.LastIndexOf(".") >= 0) {
+            if (digest != null && digest.LastIndexOf(".") >= 0)
+            {
                 digest = digest.Substring(0, digest.LastIndexOf("."));
             }
             Dictionary<string, string> param = PluginBuilderFactory.getProperties(Request);
@@ -31,20 +33,24 @@ namespace plugin_web
             HttpResponse res = new HttpResponse(this.Response);
             String origin = this.Request.Headers.Get("origin");
             pb.addCorsHeaders(res, origin);
-            if (pb.getConfiguration().getProperty("wirispluginperformance","xml").IndexOf("true") != -1) {
+            if (pb.getConfiguration().getProperty("wirispluginperformance", "xml").IndexOf("true") != -1)
+            {
 
                 String useragent = provider.getParameter("useragent", "");
-                if (useragent.IndexOf("IE") != -1) {
+                if (useragent.IndexOf("IE") != -1)
+                {
                     pb.getConfiguration().setProperty("wirisimageformat", "png");
                 }
-                else {
+                else
+                {
                     pb.getConfiguration().setProperty("wirisimageformat", "svg");
                 }
 
                 Response.ContentType = "application/json";
                 Response.AddHeader("Cache-Control", "public, max-age=3600");
-                if (digest == null) {
-                    pb.newRender().showImage(digest,mml,provider);
+                if (digest == null)
+                {
+                    pb.newRender().showImage(digest, mml, provider);
                     digest = pb.newRender().computeDigest(mml, provider.getParameters());
                 }
                 string r = pb.newRender().showImageJson(digest, "en");
@@ -53,10 +59,12 @@ namespace plugin_web
                     Response.AddHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                 }
                 Response.Write(r);
-            } else {
-                byte [] bs = pb.newRender().showImage(digest,mml,provider);
+            }
+            else
+            {
+                byte[] bs = pb.newRender().showImage(digest, mml, provider);
                 Response.ContentType = pb.getImageFormatController().getContentType();
-                Response.OutputStream.Write(bs,0,bs.Length);
+                Response.OutputStream.Write(bs, 0, bs.Length);
             }
         }
 

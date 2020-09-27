@@ -14,7 +14,6 @@
     =============================================
     -->
     <title>NUCLEUS | Exam Login</title>
-
     <!-- Default style sheets-->
     <link href="assets/Login/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/Login/css/style.css" rel="stylesheet" />
@@ -25,6 +24,9 @@
         <main>
             <div class="page-loader">
                 <div class="loader">Loading...</div>
+                <telerik:RadScriptManager ID="RadScriptManager1" runat="server"></telerik:RadScriptManager>
+                <telerik:RadSkinManager ID="RadSkinManager1" runat="server"></telerik:RadSkinManager>
+                <telerik:RadNotification ID="MessegesNotification" Width="250px" hright="200px" runat="server"></telerik:RadNotification>
             </div>
             <section class="home-section home-full-height bg-dark-30" id="home" data-background="Images/Home.jpeg">
 
@@ -34,6 +36,31 @@
                         <img src="assets/Login/images/Nucleus_Logo.png" width="150" height="150" /><br />
                         <div class="font-alt mb-40 titan-title-size-4">Welcome to Nucleus</div>
                         <asp:ImageButton ID="btnStudents" OnClick="btnStudents_Click" ImageUrl="~/assets/Login/images/login-google.png" runat="server" Width="260" />
+                        <br />
+                        <br />
+                        <div class="container hidden">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Enter UserName :</b>
+                                </div>
+                                <div class="col-md-9">
+                                    <asp:TextBox CssClass="form-control" runat="server" ID="txtUserName"></asp:TextBox>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Enter Password :</b>
+                                </div>
+                                <div class="col-md-9">
+                                    <asp:TextBox CssClass="form-control" runat="server" ID="txtpassword" TextMode="Password"></asp:TextBox>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row text-center">
+                                <asp:Button Text="Login" CssClass="btn btn-primary" runat="server" ID="btnLogin" OnClick="btnLogin_Click"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

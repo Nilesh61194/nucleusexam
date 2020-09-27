@@ -1,4 +1,5 @@
-import Core from './core.src';
+// eslint-disable-next-line no-unused-vars, import/named
+import Core, { ReturnObject } from './core.src';
 import Image from './image';
 import Listeners from './listeners';
 import Util from './util';
@@ -158,7 +159,11 @@ export default class IntegrationModel {
     if ('integrationParameters' in integrationModelProperties) {
       IntegrationModel.integrationParameters.forEach((parameter) => {
         if (parameter in integrationModelProperties.integrationParameters) {
-          this[parameter] = integrationModelProperties.integrationParameters[parameter];
+          // Don't add empty parameters.
+          const value = integrationModelProperties.integrationParameters[parameter];
+          if (Object.keys(value).length !== 0) {
+            this[parameter] = value;
+          }
         }
       });
     }
@@ -292,6 +297,9 @@ export default class IntegrationModel {
    * @param {string} editMode - Edit Mode (LaTeX or images).
    */
   updateFormula(mathml) {
+    if (this.editorParameters) {
+      mathml = com.wiris.editor.util.EditorUtils.addAnnotation(mathml, 'application/vnd.wiris.mtweb-params+json', JSON.stringify(this.editorParameters));
+    }
     let focusElement;
     let windowTarget;
     const wirisProperties = null;
@@ -325,6 +333,7 @@ export default class IntegrationModel {
    * a new image (new formula) or updating an existing one.
    * @param {string} mathml - MathML to generate the formula.
    * @param {string} editMode - Edit Mode (LaTeX or images).
+   * @returns {ReturnObject} - Object with the information of the node or latex to insert.
    */
   insertFormula(focusElement, windowTarget, mathml, wirisProperties) {
     return this.core.insertFormula(focusElement, windowTarget, mathml, wirisProperties);

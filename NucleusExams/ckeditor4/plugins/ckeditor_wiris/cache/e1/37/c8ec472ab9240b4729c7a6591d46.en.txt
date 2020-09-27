@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator 10 space plus space square root of 10 over denominator 12 end fraction"},"status":"ok"}

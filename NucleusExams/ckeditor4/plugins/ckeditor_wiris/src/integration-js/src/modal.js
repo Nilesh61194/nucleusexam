@@ -127,7 +127,9 @@ export default class ModalDialog {
     attributes = {};
     attributes.class = 'wrs_modal_dialogContainer';
     attributes.id = this.getElementId(attributes.class);
+    attributes.role = 'dialog';
     this.container = Util.createElement('div', attributes);
+    this.container.setAttribute('aria-labeledby', 'wrs_modal_title[0]');
 
     attributes = {};
     attributes.class = 'wrs_modal_wrapper';
@@ -773,8 +775,10 @@ export default class ModalDialog {
     const { innerWidth } = window;
     const { offsetHeight } = this.container;
     const { offsetWidth } = this.container;
-    const position = (innerHeight / 2 - offsetHeight / 2, innerWidth / 2 - offsetWidth / 2);
-    this.setPosition(position);
+    const bottom = innerHeight / 2 - offsetHeight / 2;
+    const right = innerWidth / 2 - offsetWidth / 2;
+
+    this.setPosition(bottom, right);
     this.recalculateScale();
     this.recalculatePosition();
     this.recalculateSize();
@@ -869,7 +873,7 @@ export default class ModalDialog {
     Util.addEvent(window, 'mousemove', this.drag.bind(this));
     Util.addEvent(window, 'resize', this.onWindowResize.bind(this));
     // Key events.
-    Util.addEvent(window, 'keydown', this.onKeyDown.bind(this));
+    Util.addEvent(this.container, 'keydown', this.onKeyDown.bind(this));
   }
 
   /**
@@ -882,7 +886,7 @@ export default class ModalDialog {
     Util.removeEvent(window, 'mousemove', this.drag);
     Util.removeEvent(window, 'resize', this.onWindowResize);
     // Key events.
-    Util.removeEvent(window, 'keydown', this.onKeyDown);
+    Util.removeEvent(this.container, 'keydown', this.onKeyDown);
   }
 
 
@@ -1136,7 +1140,7 @@ export default class ModalDialog {
    * @param {KeyboardEvent} keyboardEvent - The keyboard event.
    */
   onKeyDown(keyboardEvent) {
-    if (keyboardEvent.key !== undefined && keyboardEvent.repeat === false) {
+    if (keyboardEvent.key !== undefined) {
       // Popupmessage is not oppened.
       if (this.popup.overlayWrapper.style.display !== 'block') {
         // Code to detect Esc event
@@ -1222,7 +1226,15 @@ export default class ModalDialog {
    */
   // eslint-disable-next-line class-methods-use-this
   hideKeyboard() {
-    document.activeElement.blur();
+    // iOS keyboard can't be detected or hide directly from JavaScript.
+    // So, this method simulates that user focus a text input and blur
+    // the selection.
+    const inputField = document.createElement('input');
+    this.container.appendChild(inputField);
+    inputField.focus();
+    inputField.blur();
+    // Is removed to not see it.
+    inputField.remove();
   }
 
   /**

@@ -20,6 +20,13 @@ namespace NucleusExams
                 defaults: new { id = RouteParameter.Optional }
             );
 
+
+            config.Routes.MapHttpRoute(
+                name: "StudentApi",
+                routeTemplate: "api/{controller}/{action}/{ExamID}/{StudentID}",
+                defaults: new { action = "UpdateExamEndTimeByExamIDStudentID" }
+            );
+
             config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }

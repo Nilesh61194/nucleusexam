@@ -8,12 +8,13 @@
     <title></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
-    <script type="text/javascript">
-        function OpenWindow() {
-            //Open the Popup window
-            //Change the pagename here
-            window.open('https://www.desmos.com/scientific', '_blank', 'height=450,width=500,scrollbars=0,location=1,toolbar=0');
-            return false;
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script>
+        function val() {
+            var retVal = confirm("Are you sure you want to reset diagram  ?");
+            if (retVal == false) {
+                return false;
+            }
         }
     </script>
 </head>
@@ -23,7 +24,9 @@
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <telerik:RadImageEditor RenderMode="Lightweight" AllowedSavingLocation="Server" ID="demo1" CanvasMode="Automatic" runat="server">
+                <asp:Button ID="btnReset" runat="server" Text="Reset" OnClientClick="return val();" OnClick="btnReset_Click" />
+                <telerik:RadImageEditor RenderMode="Lightweight" AllowedSavingLocation="Server" ID="editor" CanvasMode="Automatic" runat="server"
+                    ImageUrl="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAImCAIAAACDxJhEAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAk5SURBVHhe7dYBDQAADMOg+ze962gCKrgBAGSpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAEKYyAECYygAAYSoDAISpDAAQpjIAQJjKAABhKgMAhKkMABCmMgBAmMoAAGEqAwCEqQwAkLU9arA0NR01ojsAAAAASUVORK5CYII=">
                     <Tools>
                         <telerik:ImageEditorToolGroup>
                             <telerik:ImageEditorToolStrip Text="Undo" CommandName="Undo" />
@@ -33,7 +36,6 @@
                             <telerik:ImageEditorTool Text="Draw Rectangle" CommandName="DrawRectangle" IsToggleButton="true" />
                             <telerik:ImageEditorTool Text="Line" CommandName="Line" IsToggleButton="true" />
                             <telerik:ImageEditorTool Text="Add Text" CommandName="AddText" IsToggleButton="true" />
-                            <telerik:ImageEditorTool Text="Reset" CommandName="Reset" />
                         </telerik:ImageEditorToolGroup>
                     </Tools>
                 </telerik:RadImageEditor>

@@ -1,1 +1,0 @@
-{"result":{"text":"open curly brackets 10 space open vertical bar 155 close vertical bar close curly brackets"},"status":"ok"}

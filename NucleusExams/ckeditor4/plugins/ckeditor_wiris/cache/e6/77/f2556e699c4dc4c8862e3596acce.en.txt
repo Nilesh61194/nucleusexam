@@ -1,0 +1,1 @@
+{"result":{"text":"10 over 12 space plus space root index 21 of 10"},"status":"ok"}

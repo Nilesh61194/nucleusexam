@@ -63,6 +63,16 @@
       <HintPath>..\packages\Google.Apis.Core.1.9.1\lib\portable-net40+sl50+win+wpa81+wp80\Google.Apis.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="IronPdf">
+      <HintPath>C:\Users\nileshkumar.lokhande.FOUNTAINHEAD\Downloads\IronPdf\net40\IronPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPdf.Assets.Rendering.Windows">
+      <HintPath>C:\Users\nileshkumar.lokhande.FOUNTAINHEAD\Downloads\IronPdf\net40\IronPdf.Assets.Rendering.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=4.1.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\Publish\NucleusExams\bin\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -88,6 +98,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Drawing.Common">
+      <HintPath>C:\Users\nileshkumar.lokhande.FOUNTAINHEAD\Downloads\IronPdf\netstandard2.0\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -177,6 +191,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddQuestion.aspx" />
+    <Content Include="assets\css\all.css" />
+    <Content Include="Content\autoFill.dataTables.min.css" />
     <Content Include="assets\css\bootstrap-datetimepicker.min.css" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\dataTables.bootstrap4.min.css" />
@@ -470,6 +487,7 @@
     <Content Include="AssignToStudent.aspx" />
     <Content Include="AssignToTeacher.aspx" />
     <Content Include="bin\Google.Apis.Auth.dll" />
+    <Content Include="bin\itextsharp.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Newtonsoft.Json.dll" />
     <Content Include="bin\NucleusExams.dll" />
@@ -860,25 +878,244 @@
     <Content Include="ckeditor4\skins\moono-lisa\images\refresh.png" />
     <Content Include="ckeditor4\skins\moono-lisa\images\spinner.gif" />
     <Content Include="ckeditor4\styles.js" />
+    <Content Include="Content\all.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\kendo.default-v2.min.css" />
     <Content Include="Content\popup.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\test.css" />
+    <Content Include="CustomeR6.ascx" />
     <Content Include="DemoPages\DrawingTools.aspx" />
     <Content Include="DemoPages\TimerControl.aspx" />
+    <Content Include="DemoPages\TinyMCE.aspx" />
     <Content Include="DemoPages\Tool3.aspx" />
     <Content Include="DemoPages\ToolPage.html" />
     <Content Include="DemoPages\Tools2.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Global.asax" />
+    <Content Include="Grade10\DemoPaper\ImageEditor.aspx" />
+    <Content Include="Grade10\DemoPaper\Image\Question1.PNG" />
+    <Content Include="Grade10\DemoPaper\Image\Question5.PNG" />
+    <Content Include="Grade10\DemoPaper\Maths1.aspx" />
+    <Content Include="Grade10\DemoPaper\Maths1Preview.aspx" />
+    <Content Include="Grade10\IDUMay2019\IDU_G10_May_2019.aspx" />
+    <Content Include="Grade10\IDUMay2019\IDU_G10_May_2019Preview.aspx" />
+    <Content Include="Grade10\IDUMay2019\Image\Source1A.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source1B.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source1C.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source1D.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source1H1.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source1H2.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source3.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.0.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.1.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.2.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.3.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.4.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.5.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.5.PNG" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.6.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source5.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source6.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source7.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source8.0.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source8.1.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source8.2.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source8.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source801.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source802.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source803.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source804.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source805.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source806.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source807.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source808.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source809.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source810.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source811.jpg" />
+    <Content Include="Grade10\IDUMay2019\Image\Source812.jpg" />
+    <Content Include="Grade10\IDU\IDU_G10Preview.aspx" />
+    <Content Include="Grade10\IH\IH.aspx" />
+    <Content Include="Grade10\IH\IHPreview.aspx" />
+    <Content Include="Grade10\IH\Image\Source_A.jpg" />
+    <Content Include="Grade10\IH\Image\Source_B.jpg" />
+    <Content Include="Grade10\IH\Image\Source_C1.jpg" />
+    <Content Include="Grade10\IH\Image\Source_C2.png" />
+    <Content Include="Grade10\IH\Image\Source_C3.png" />
+    <Content Include="Grade10\IH\Image\Source_C4.png" />
+    <Content Include="Grade10\IH\Image\Source_D.png" />
+    <Content Include="Grade10\IH\Image\Source_E.jpg" />
+    <Content Include="Grade10\IS\Image\Q1.png" />
+    <Content Include="Grade10\IS\Image\Q2.png" />
+    <Content Include="Grade10\IS\Image\Q3.png" />
+    <Content Include="Grade10\IS\Image\Q4.gif" />
+    <Content Include="Grade10\IS\Image\Q5.jpg" />
+    <Content Include="Grade10\IS\Image\Q6.png" />
+    <Content Include="Grade10\IS\Image\Q7.PNG" />
+    <Content Include="Grade10\IS\Image\Q8.png" />
+    <Content Include="Grade10\IS\IS.aspx" />
+    <Content Include="Grade10\IS\ISPreview.aspx" />
+    <Content Include="Grade10\LL\LL.aspx" />
+    <Content Include="Grade10\LL\LLPreview.aspx" />
+    <Content Include="Grade10\Math\Image\CB1.png" />
+    <Content Include="Grade10\Math\Image\CB2.png" />
+    <Content Include="Grade10\Math\Image\Q1.png" />
+    <Content Include="Grade10\Math\Image\Q11.png" />
+    <Content Include="Grade10\Math\Image\Q12.1.png" />
+    <Content Include="Grade10\Math\Image\Q12.png" />
+    <Content Include="Grade10\Math\Image\Q2.1.png" />
+    <Content Include="Grade10\Math\Image\Q2.2.png" />
+    <Content Include="Grade10\Math\Image\Q3.png" />
+    <Content Include="Grade10\Math\Image\Q3A.PNG" />
+    <Content Include="Grade10\Math\Image\Q4.png" />
+    <Content Include="Grade10\Math\Image\Q4A.PNG" />
+    <Content Include="Grade10\Math\Image\Q4B.PNG" />
+    <Content Include="Grade10\Math\Image\Q4C.PNG" />
+    <Content Include="Grade10\Math\Image\Q5.1.png" />
+    <Content Include="Grade10\Math\Image\Q5.png" />
+    <Content Include="Grade10\Math\Image\Q7.png" />
+    <Content Include="Grade10\Math\MathExt.aspx" />
+    <Content Include="Grade10\Math\MathExtPreview.aspx" />
+    <Content Include="Grade10\Math\MathStd.aspx" />
+    <Content Include="Grade10\Math\MathStdPreview.aspx" />
+    <Content Include="Grade10\Math\VennDiagramMathExt.aspx" />
+    <Content Include="Grade8\IDU\IDU_G8Preview.aspx" />
+    <Content Include="Grade8\IDU\Image\15.PNG" />
+    <Content Include="Grade8\IDU\Image\First.PNG" />
+    <Content Include="Grade8\IDU\Image\i1.PNG" />
+    <Content Include="Grade8\IDU\Image\i2.PNG" />
+    <Content Include="Grade8\IDU\Image\i3.PNG" />
+    <Content Include="Grade8\IDU\Image\i4.PNG" />
+    <Content Include="Grade8\IDU\Image\i6.PNG" />
+    <Content Include="Grade8\IDU\Image\i7.PNG" />
+    <Content Include="Grade8\IDU\Image\q2.PNG" />
+    <Content Include="Grade8\IDU\Image\Q3.1.PNG" />
+    <Content Include="Grade8\IDU\Image\Q3.2.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.0.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.1.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.2.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.3.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.4.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.5.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.6.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.7.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.8.PNG" />
+    <Content Include="Grade8\IDU\Image\Q4.PNG" />
+    <Content Include="Grade8\IDU\Image\Q6.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7Antarctica.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7Auckland.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7Baikonur.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7Berlin.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7Hadar.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7Lima.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7Oslo.PNG" />
+    <Content Include="Grade8\IDU\Image\Q7San.PNG" />
+    <Content Include="Grade8\IDU\Image\Q8.0.PNG" />
+    <Content Include="Grade8\IDU\Image\Q8.1.PNG" />
+    <Content Include="Grade8\IDU\Image\q8.2.PNG" />
+    <Content Include="Grade8\IDU\Image\Q8.jpg" />
+    <Content Include="Grade8\IDU\Image\Q9.0.PNG" />
+    <Content Include="Grade8\IDU\Image\Q9.1.PNG" />
+    <Content Include="Grade8\IDU\Image\Q9.jpg" />
+    <Content Include="Grade8\IDU\Image\Route.PNG" />
+    <Content Include="Grade8\IDU\Image\RS0.PNG" />
+    <Content Include="Grade8\IDU\Image\RS1.PNG" />
+    <Content Include="Grade8\IDU\Image\RS2.PNG" />
+    <Content Include="Grade8\IDU\Image\RS3.PNG" />
+    <Content Include="Grade8\IDU\Image\RS4.PNG" />
+    <Content Include="Grade8\IDU\Image\RS5.PNG" />
+    <Content Include="Grade8\IDU\Image\RS6.PNG" />
+    <Content Include="Grade8\IDU\Image\s1.PNG" />
+    <Content Include="Grade8\IDU\Image\s2.PNG" />
+    <Content Include="Grade8\IDU\Image\s3.PNG" />
+    <Content Include="Grade8\IDU\Image\s4.PNG" />
+    <Content Include="Grade8\IDU\Image\s5.PNG" />
+    <Content Include="Grade8\IDU\Image\s6.PNG" />
+    <Content Include="Grade8\IDU\Image\s7.PNG" />
+    <Content Include="Grade8\IDU\Image\src3.1.PNG" />
+    <Content Include="Grade8\IDU\Image\src3.2.PNG" />
+    <Content Include="Grade8\IDU\Image\src4.0.PNG" />
+    <Content Include="Grade8\IDU\Image\VS2.PNG" />
+    <Content Include="Grade8\IDU\Image\vs6.PNG" />
+    <Content Include="Grade8\IDU\Image\VSQ2.PNG" />
+    <Content Include="Grade8\IDU\Image\VSQ3.jpg" />
+    <Content Include="Grade8\IDU\Image\WhiteWorld.png" />
+    <Content Include="Grade10\IDU\First.PNG" />
+    <Content Include="Grade10\IDU\IDU_G10.aspx" />
+    <Content Include="Grade10\IDU\Image\Diagram.gif" />
+    <Content Include="Grade10\IDU\Image\earth.jpg" />
+    <Content Include="Grade10\IDU\Image\FinalSource6.jpg" />
+    <Content Include="Grade10\IDU\Image\IDu_G10_Question1.PNG" />
+    <Content Include="Grade10\IDU\Image\OptionSource7.1.jpg" />
+    <Content Include="Grade10\IDU\Image\OptionSource7.jpg" />
+    <Content Include="Grade10\IDU\Image\Question1.mp4" />
+    <Content Include="Grade10\IDU\Image\Question1_1.0.jpg" />
+    <Content Include="Grade10\IDU\Image\Question1_1_3.jpg" />
+    <Content Include="Grade10\IDU\Image\Question1_a_2.1.PNG" />
+    <Content Include="Grade10\IDU\Image\Question1_a_2.2.PNG" />
+    <Content Include="Grade10\IDU\Image\Question1_a_2.3.PNG" />
+    <Content Include="Grade10\IDU\Image\Question7.PNG" />
+    <Content Include="Grade10\IDU\Image\Question_1_1_2.jpg" />
+    <Content Include="Grade10\IDU\Image\Source3.png" />
+    <Content Include="Grade10\IDU\Image\Source4.PNG" />
+    <Content Include="Grade10\IDU\Image\Source5Script.jpg" />
+    <Content Include="Grade10\IDU\Image\Source7.PNG" />
+    <Content Include="Grade10\IDU\Image\Source8VS.jpg" />
+    <Content Include="Grade10\IDU\Image\Source9.jpg" />
+    <Content Include="Grade10\IDU\Image\VideoQ1.mp4" />
+    <Content Include="Grade10\Math\Image\Maths_Q1_1.png" />
+    <Content Include="Grade10\Math\Image\Maths_Q5.PNG" />
+    <Content Include="Grade10\Math\NonReportable.aspx" />
+    <Content Include="Grade10\Math\NonReportablePreview.aspx" />
+    <Content Include="Grade10\Math\VennDiagramImage.aspx" />
+    <Content Include="Grade8\IDU\IDU_G8.aspx" />
+    <Content Include="Grade8\IS\IS.aspx" />
+    <Content Include="Grade8\IS\ISPreview.aspx" />
+    <Content Include="Grade9\IDU\IDU_G9.aspx" />
+    <Content Include="Grade9\IDU\Image\Source1.PNG" />
+    <Content Include="Grade9\IDU\Image\Source10.PNG" />
+    <Content Include="Grade9\IDU\Image\Source2.png" />
+    <Content Include="Grade9\IDU\Image\Source4.0.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.1.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.2.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.3.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.4.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.5.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.6.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.7.PNG" />
+    <Content Include="Grade9\IDU\Image\Source4.8.PNG" />
+    <Content Include="Grade9\IDU\Image\Source5.PNG" />
+    <Content Include="Grade9\IDU\Image\Source6.1.PNG" />
+    <Content Include="Grade9\IDU\Image\Source6.2.PNG" />
+    <Content Include="Grade9\IDU\Image\Source6.jpg" />
+    <Content Include="Grade9\IDU\Image\Source8.PNG" />
+    <Content Include="Grade9\IDU\Image\Source9.PNG" />
+    <Content Include="Grade9\IDU\IDU_G9Preview.aspx" />
+    <Content Include="Grade9\IS\Image\ImageC2.png" />
+    <Content Include="Grade9\IS\Image\INTERACTIVE.jpg" />
+    <Content Include="Grade9\IS\PhysicalWorld.aspx" />
+    <Content Include="Grade9\IS\PhysicalWorldPreview.aspx" />
+    <Content Include="Grade9\Math\Diagram.aspx" />
+    <Content Include="Grade9\Math\Image\q4figurea.png" />
+    <Content Include="Grade9\Math\Math_G9_T2.aspx" />
+    <Content Include="Grade9\Math\Image\q3figurea.png" />
+    <Content Include="Grade9\Math\Math_G9_T2Preview.aspx" />
+    <Content Include="Grade9\Math\WirisMathType.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="Images\bin.png" />
+    <Content Include="Images\grey-ico-window.png" />
     <Content Include="Images\Home.jpeg" />
     <Content Include="Images\Home2.jpg" />
     <Content Include="Images\Home3.jpg" />
     <Content Include="Images\Home4.jpg" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\Logo\FS_Logo.png" />
-    <Content Include="Index.aspx" />
+    <Content Include="Images\Logo\Nucleus.gif" />
+    <Content Include="Images\Nucleus_16.png" />
     <Content Include="Login.aspx" />
     <Content Include="MyExam.aspx" />
     <Content Include="NucleusExams.Context.tt">
@@ -894,6 +1131,8 @@
     <Content Include="Paper\DemoPaper.aspx" />
     <Content Include="Paper\RadEditorDemoPaper.aspx" />
     <Content Include="Paper\StartExam.aspx" />
+    <Content Include="Paper\testpdf.html" />
+    <Content Include="Paper\testslide.aspx" />
     <Content Include="RadEditorDialogs\About.ascx" />
     <Content Include="RadEditorDialogs\AccessibleTable.ascx" />
     <Content Include="RadEditorDialogs\Border.ascx" />
@@ -933,8 +1172,17 @@
     <Content Include="RadEditorDialogs\TableWizard.ascx" />
     <Content Include="RadEditorDialogs\TemplateManager.ascx" />
     <Content Include="RadEditorDialogs\XhtmlValidator.ascx" />
+    <Content Include="Scripts\autosize.js" />
     <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min-3.4.0.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dataTables.autoFill.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery.min.kendo.js" />
+    <Content Include="Scripts\jszip.min.js" />
+    <Content Include="Scripts\kendo.all.min.js" />
+    <Content Include="Scripts\pako_deflate.min.js" />
+    <Content Include="Wiris.html" />
     <EntityDeploy Include="NucleusExams.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>NucleusExams.Designer.cs</LastGenOutput>
@@ -1119,11 +1367,13 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\sweetalert-dev.js" />
     <Content Include="Student\Home.aspx" />
     <Content Include="Views\ckeditor.js" />
@@ -1134,6 +1384,13 @@
   <ItemGroup>
     <Compile Include="AcademicYear.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddQuestion.aspx.cs">
+      <DependentUpon>AddQuestion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddQuestion.aspx.designer.cs">
+      <DependentUpon>AddQuestion.aspx</DependentUpon>
     </Compile>
     <Compile Include="AssignRights.aspx.cs">
       <DependentUpon>AssignRights.aspx</DependentUpon>
@@ -1217,7 +1474,16 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controllers\ExamController.cs" />
+    <Compile Include="Controllers\PaperController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="CustomeR6.ascx.cs">
+      <DependentUpon>CustomeR6.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomeR6.ascx.designer.cs">
+      <DependentUpon>CustomeR6.ascx</DependentUpon>
+    </Compile>
     <Compile Include="DemoPages\DrawingTools.aspx.cs">
       <DependentUpon>DrawingTools.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1231,6 +1497,13 @@
     </Compile>
     <Compile Include="DemoPages\TimerControl.aspx.designer.cs">
       <DependentUpon>TimerControl.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DemoPages\TinyMCE.aspx.cs">
+      <DependentUpon>TinyMCE.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DemoPages\TinyMCE.aspx.designer.cs">
+      <DependentUpon>TinyMCE.aspx</DependentUpon>
     </Compile>
     <Compile Include="DemoPages\Tool3.aspx.cs">
       <DependentUpon>Tool3.aspx</DependentUpon>
@@ -1249,7 +1522,19 @@
     <Compile Include="EA_ExamAnswerMaster.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
     </Compile>
+    <Compile Include="EA_ExamCommentScoreMaster.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
     <Compile Include="EA_ExamMaster.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EA_ExamRightsMaster.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EA_OptionMaster.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EA_QuestionMaster.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
     </Compile>
     <Compile Include="ea_spEA_StaffRights_Result.cs">
@@ -1261,13 +1546,34 @@
     <Compile Include="ea_spgEA_ExamMasterByExamID_Result.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
     </Compile>
+    <Compile Include="ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID_Result.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ea_spgEA_ExamMasterByStaffID_Result.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
     <Compile Include="ea_spgEA_ExamMaster_Result.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ea_spgEA_QuestionMasterByExamID1_Result.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ea_spgEA_QuestionMasterByExamIDStudentID_Result.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ea_spgEA_QuestionMasterByExamID_Result.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ea_spgEA_StudentEnrollmentandStatusByExamID_Result.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
     </Compile>
     <Compile Include="ea_spgEA_StudentEnrollmentByExamID_Result.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
     </Compile>
     <Compile Include="ea_spgEA_StudentEnrollmentCheckExamActiveByStudentIDExamID_Result.cs">
+      <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ea_spgExamStartFinishStatuByExamID_Result.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
     </Compile>
     <Compile Include="EA_StaffRights.cs">
@@ -1279,8 +1585,239 @@
     <Compile Include="EA_TeacherEnrollment.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
     </Compile>
+    <Compile Include="Grade10\DemoPaper\ImageEditor.aspx.cs">
+      <DependentUpon>ImageEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\DemoPaper\ImageEditor.aspx.designer.cs">
+      <DependentUpon>ImageEditor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\DemoPaper\Maths1.aspx.cs">
+      <DependentUpon>Maths1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\DemoPaper\Maths1.aspx.designer.cs">
+      <DependentUpon>Maths1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\DemoPaper\Maths1Preview.aspx.cs">
+      <DependentUpon>Maths1Preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\DemoPaper\Maths1Preview.aspx.designer.cs">
+      <DependentUpon>Maths1Preview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IDUMay2019\IDU_G10_May_2019.aspx.cs">
+      <DependentUpon>IDU_G10_May_2019.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IDUMay2019\IDU_G10_May_2019.aspx.designer.cs">
+      <DependentUpon>IDU_G10_May_2019.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IDUMay2019\IDU_G10_May_2019Preview.aspx.cs">
+      <DependentUpon>IDU_G10_May_2019Preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IDUMay2019\IDU_G10_May_2019Preview.aspx.designer.cs">
+      <DependentUpon>IDU_G10_May_2019Preview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IDU\IDU_G10.aspx.cs">
+      <DependentUpon>IDU_G10.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IDU\IDU_G10.aspx.designer.cs">
+      <DependentUpon>IDU_G10.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IDU\IDU_G10Preview.aspx.cs">
+      <DependentUpon>IDU_G10Preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IDU\IDU_G10Preview.aspx.designer.cs">
+      <DependentUpon>IDU_G10Preview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IH\IH.aspx.cs">
+      <DependentUpon>IH.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IH\IH.aspx.designer.cs">
+      <DependentUpon>IH.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IH\IHPreview.aspx.cs">
+      <DependentUpon>IHPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IH\IHPreview.aspx.designer.cs">
+      <DependentUpon>IHPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IS\IS.aspx.cs">
+      <DependentUpon>IS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IS\IS.aspx.designer.cs">
+      <DependentUpon>IS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\IS\ISPreview.aspx.cs">
+      <DependentUpon>ISPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\IS\ISPreview.aspx.designer.cs">
+      <DependentUpon>ISPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\LL\LL.aspx.cs">
+      <DependentUpon>LL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\LL\LL.aspx.designer.cs">
+      <DependentUpon>LL.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\LL\LLPreview.aspx.cs">
+      <DependentUpon>LLPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\LL\LLPreview.aspx.designer.cs">
+      <DependentUpon>LLPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\MathExt.aspx.cs">
+      <DependentUpon>MathExt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\MathExt.aspx.designer.cs">
+      <DependentUpon>MathExt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\MathExtPreview.aspx.cs">
+      <DependentUpon>MathExtPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\MathExtPreview.aspx.designer.cs">
+      <DependentUpon>MathExtPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\MathStd.aspx.cs">
+      <DependentUpon>MathStd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\MathStd.aspx.designer.cs">
+      <DependentUpon>MathStd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\MathStdPreview.aspx.cs">
+      <DependentUpon>MathStdPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\MathStdPreview.aspx.designer.cs">
+      <DependentUpon>MathStdPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\NonReportable.aspx.cs">
+      <DependentUpon>NonReportable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\NonReportable.aspx.designer.cs">
+      <DependentUpon>NonReportable.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\NonReportablePreview.aspx.cs">
+      <DependentUpon>NonReportablePreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\NonReportablePreview.aspx.designer.cs">
+      <DependentUpon>NonReportablePreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\VennDiagramImage.aspx.cs">
+      <DependentUpon>VennDiagramImage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\VennDiagramImage.aspx.designer.cs">
+      <DependentUpon>VennDiagramImage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Grade.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Grade10\Math\VennDiagramMathExt.aspx.cs">
+      <DependentUpon>VennDiagramMathExt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade10\Math\VennDiagramMathExt.aspx.designer.cs">
+      <DependentUpon>VennDiagramMathExt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade8\IDU\IDU_G8.aspx.cs">
+      <DependentUpon>IDU_G8.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade8\IDU\IDU_G8.aspx.designer.cs">
+      <DependentUpon>IDU_G8.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade8\IDU\IDU_G8Preview.aspx.cs">
+      <DependentUpon>IDU_G8Preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade8\IDU\IDU_G8Preview.aspx.designer.cs">
+      <DependentUpon>IDU_G8Preview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade8\IS\IS.aspx.cs">
+      <DependentUpon>IS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade8\IS\IS.aspx.designer.cs">
+      <DependentUpon>IS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade8\IS\ISPreview.aspx.cs">
+      <DependentUpon>ISPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade8\IS\ISPreview.aspx.designer.cs">
+      <DependentUpon>ISPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\IDU\IDU_G9.aspx.cs">
+      <DependentUpon>IDU_G9.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\IDU\IDU_G9.aspx.designer.cs">
+      <DependentUpon>IDU_G9.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\IDU\IDU_G9Preview.aspx.cs">
+      <DependentUpon>IDU_G9Preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\IDU\IDU_G9Preview.aspx.designer.cs">
+      <DependentUpon>IDU_G9Preview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\IS\PhysicalWorld.aspx.cs">
+      <DependentUpon>PhysicalWorld.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\IS\PhysicalWorld.aspx.designer.cs">
+      <DependentUpon>PhysicalWorld.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\IS\PhysicalWorldPreview.aspx.cs">
+      <DependentUpon>PhysicalWorldPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\IS\PhysicalWorldPreview.aspx.designer.cs">
+      <DependentUpon>PhysicalWorldPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\Math\Diagram.aspx.cs">
+      <DependentUpon>Diagram.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\Math\Diagram.aspx.designer.cs">
+      <DependentUpon>Diagram.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\Math\Math_G9_T2.aspx.cs">
+      <DependentUpon>Math_G9_T2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\Math\Math_G9_T2.aspx.designer.cs">
+      <DependentUpon>Math_G9_T2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\Math\Math_G9_T2Preview.aspx.cs">
+      <DependentUpon>Math_G9_T2Preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\Math\Math_G9_T2Preview.aspx.designer.cs">
+      <DependentUpon>Math_G9_T2Preview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade9\Math\WirisMathType.aspx.cs">
+      <DependentUpon>WirisMathType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade9\Math\WirisMathType.aspx.designer.cs">
+      <DependentUpon>WirisMathType.aspx</DependentUpon>
     </Compile>
     <Compile Include="GradeSection.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
@@ -1295,13 +1832,6 @@
     <Compile Include="Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Index.aspx.cs">
-      <DependentUpon>Index.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Index.aspx.designer.cs">
-      <DependentUpon>Index.aspx</DependentUpon>
-    </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1310,6 +1840,7 @@
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
     <Compile Include="Models\NucleusExamCustomClass.cs" />
+    <Compile Include="Models\QuestionClass.cs" />
     <Compile Include="MyExam.aspx.cs">
       <DependentUpon>MyExam.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1342,6 +1873,13 @@
     </Compile>
     <Compile Include="Paper\StartExam.aspx.designer.cs">
       <DependentUpon>StartExam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\testslide.aspx.cs">
+      <DependentUpon>testslide.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paper\testslide.aspx.designer.cs">
+      <DependentUpon>testslide.aspx</DependentUpon>
     </Compile>
     <Compile Include="Section.cs">
       <DependentUpon>NucleusExams.tt</DependentUpon>
@@ -1407,11 +1945,17 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\web.config" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Student\Student.Master" />
+    <Content Include="Views\Shared\_QuestionPartialView.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\demo.cshtml" />
+    <Content Include="Views\Paper\GetPaper.cshtml" />
+    <Content Include="Views\Paper\PreviewPaper.cshtml" />
+    <Content Include="Views\Paper\StudentPreviewPaper.cshtml" />
+    <Content Include="Views\Paper\GetPaperWithStartExam.cshtml" />
+    <Content Include="Views\Paper\ExamPreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1423,8 +1967,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="ckeditor4\plugins\ckeditor_wiris\cache\" />
     <Folder Include="ckeditor4\plugins\ckeditor_wiris\formula\" />
-    <Folder Include="Views\Exam\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

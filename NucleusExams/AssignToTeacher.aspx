@@ -49,7 +49,7 @@
                 Iserror = false;
             }
 
-            
+
             if (ErrorMsg != "") {
                 swal(ErrorMsg);
                 return false;
@@ -59,6 +59,13 @@
             }
         }
 
+        function error() {
+            swal({
+                title: "error",
+                text: "Something happen wrong ... try again",
+                type: "error"
+            });
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -68,37 +75,46 @@
     </div>
     <div class="row" id="divAll" runat="server">
 
-        <asp:HiddenField ID="hfloggedInStaffID" ClientIDMode="Static" runat="server" Value="720" />
+        <asp:HiddenField ID="hfloggedInStaffID" ClientIDMode="Static" runat="server" Value="0" />
 
         <div class="col-lg-12">
             <div class="card-box">
-                <h4 class="card-title">Assign to Teacher</h4>
-                <div class="form-group row">
-                    <label class="col-form-label-sm col-md-1">Academic Year </label>
-                    <div class="col-md-5">
-                        <asp:DropDownList ID="ddlAcademicYear" runat="server" OnSelectedIndexChanged="ddlAcademicYear_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control" ClientIDMode="Static"></asp:DropDownList>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-form-label-sm col-md-1">Grade </label>
-                    <div class="col-md-5">
-                        <asp:DropDownList ID="ddlGrade" runat="server" OnSelectedIndexChanged="ddlGrade_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control" ClientIDMode="Static"></asp:DropDownList>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-form-label-sm col-md-1">Exam</label>
-                    <div class="col-md-5">
-                        <asp:DropDownList ID="ddlExam" runat="server" CssClass="form-control" AutoPostBack="true" ClientIDMode="Static"></asp:DropDownList>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-form-label-sm col-md-1">Teacher</label>
-                    <div class="col-md-5">
-                        <telerik:RadComboBox Width="100%" Filter="Contains" ClientIDMode="Static" EnableCheckAllItemsCheckBox="true" CheckBoxes="true"
-                            EmptyMessage="Select Teacher" ID="ddlTeacher" runat="server">
-                        </telerik:RadComboBox>
-                    </div>
-                </div>
+                <asp:UpdatePanel ID="upForm" runat="server">
+                    <ContentTemplate>
+                        <h4 class="card-title">Assign to Teacher</h4>
+                        <div class="form-group row">
+                            <label class="col-form-label-sm col-md-1">Academic Year </label>
+                            <div class="col-md-5">
+                                <asp:DropDownList ID="ddlAcademicYear" runat="server" OnSelectedIndexChanged="ddlAcademicYear_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control" ClientIDMode="Static"></asp:DropDownList>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label-sm col-md-1">Grade </label>
+                            <div class="col-md-5">
+                                <asp:DropDownList ID="ddlGrade" runat="server" OnSelectedIndexChanged="ddlGrade_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control" ClientIDMode="Static"></asp:DropDownList>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label-sm col-md-1">Exam</label>
+                            <div class="col-md-5">
+                                <asp:DropDownList ID="ddlExam" runat="server" CssClass="form-control" AutoPostBack="true" ClientIDMode="Static"></asp:DropDownList>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label-sm col-md-1">Teacher</label>
+                            <div class="col-md-5">
+                                <telerik:RadComboBox Width="100%" Filter="Contains" ClientIDMode="Static" EnableCheckAllItemsCheckBox="true" CheckBoxes="true"
+                                    EmptyMessage="Select Teacher" ID="ddlTeacher" runat="server">
+                                </telerik:RadComboBox>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlAcademicYear" EventName="SelectedIndexChanged" />
+                        <asp:AsyncPostBackTrigger ControlID="ddlGrade" EventName="SelectedIndexChanged" />
+                        <asp:AsyncPostBackTrigger ControlID="ddlExam" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>
 
                 <div class="form-group row">
                     <div class="col-md-3 text-center">

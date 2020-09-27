@@ -1,1 +1,0 @@
-{"result":{"text":"a space plus _ space c\n10 over 2\nfraction numerator a space plus space b square root of 1 space plus space 4 end root over denominator c to the power of 22 end fraction\na space plus space b space equals space c squared\n"},"status":"ok"}

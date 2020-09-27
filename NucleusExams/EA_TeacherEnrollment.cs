@@ -18,5 +18,7 @@ namespace NucleusExams
         public Nullable<decimal> StaffID { get; set; }
         public Nullable<decimal> ExamID { get; set; }
         public Nullable<System.DateTime> AssignDate { get; set; }
+        public Nullable<decimal> EntryBy { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
     }
 }

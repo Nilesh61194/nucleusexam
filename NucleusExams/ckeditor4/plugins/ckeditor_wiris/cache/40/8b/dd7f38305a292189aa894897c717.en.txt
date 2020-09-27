@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator 15 over denominator 1 square root of 15 end fraction space plus space 15 to the power of 1\nbevelled 10 over 5\nsquare root of 15 space plus space 25 end root\n10 subscript 5"},"status":"ok"}

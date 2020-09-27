@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator begin display style 10 over 45 end style over denominator 4 end fraction"},"status":"ok"}

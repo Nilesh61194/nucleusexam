@@ -31,12 +31,21 @@ namespace NucleusExams.DemoPages {
         protected global::System.Web.UI.ScriptManager scriptManager1;
         
         /// <summary>
-        /// demo1 control.
+        /// btnReset control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadImageEditor demo1;
+        protected global::System.Web.UI.WebControls.Button btnReset;
+        
+        /// <summary>
+        /// editor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadImageEditor editor;
     }
 }

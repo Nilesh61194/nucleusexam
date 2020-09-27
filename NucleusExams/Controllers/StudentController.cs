@@ -13,6 +13,26 @@ namespace NucleusExams.Controllers
     public class StudentController : ApiController
     {
         [HttpGet]
+        [Route("GetExamStartFinishStatuByExamID")]
+        public DataTable GetExamStartFinishStatuByExamID(decimal Examid)
+        {
+            try
+            {
+                using (dbEntities entities = new dbEntities())
+                {
+                    var result = entities.ea_spgExamStartFinishStatuByExamID(Examid).Distinct().ToList();
+
+
+                    return ToDataTable(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return null;
+            }
+        }
+        [HttpGet]
         [Route("IsExamActiveByExamID")]
         public bool IsExamActiveByExamID(decimal ExamID)
         {
@@ -45,6 +65,7 @@ namespace NucleusExams.Controllers
                 return false;
             }
         }
+
 
         [HttpGet]
         [Route("IsExamActiveByExamIDStudentID")]
@@ -126,26 +147,28 @@ namespace NucleusExams.Controllers
 
         [HttpPost]
         [Route("UpdateExamStartTimeByExamIDStudentID")]
-        public void UpdateExamStartTimeByExamIDStudentID(decimal ExamID, decimal StudentID)
+        public bool UpdateExamStartTimeByExamIDStudentID(EA_StudentEnrollment Obj)
         {
             try
             {
 
                 using (dbEntities entities = new dbEntities())
                 {
-                    (from EAS in entities.EA_StudentEnrollment where EAS.ExamID == ExamID && EAS.StudentID == StudentID select EAS).ToList().ForEach(e => e.ActualStartTime = System.DateTime.Now);
+                    (from EAS in entities.EA_StudentEnrollment where EAS.ExamID == Obj.ExamID && EAS.StudentID == Obj.StudentID select EAS).ToList().ForEach(e => e.ActualStartTime = System.DateTime.Now);
                     entities.SaveChanges();
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
-                //    return false;
+                return false;
             }
         }
 
-        [HttpPost]
+
         [Route("UpdateExamEndTimeByExamIDStudentID")]
+        [HttpGet]
         public bool UpdateExamEndTimeByExamIDStudentID(decimal ExamID, decimal StudentID)
         {
             try
@@ -178,7 +201,7 @@ namespace NucleusExams.Controllers
                 using (dbEntities entities = new dbEntities())
                 {
                     var result = entities.ea_spgStudentIDByMD5HashCode(MD5HashCode).SingleOrDefault().Value;
-                    if (result != null)
+                    if (result != 0)
                     {
                         return result;
                     }
@@ -192,6 +215,34 @@ namespace NucleusExams.Controllers
             {
                 string msg = ex.Message;
                 return 0;
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("GetExamURlByExamID")]
+        public string GetExamURlByExamID(decimal ExamID)
+        {
+            try
+            {
+                using (dbEntities entities = new dbEntities())
+                {
+                    string url = entities.EA_ExamMaster.Where(e => e.ExamID == ExamID).Select(e => e.ExamURL).Single().ToString();
+                    if (url != "")
+                    {
+                        return url;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return null;
             }
         }
 
@@ -240,6 +291,7 @@ namespace NucleusExams.Controllers
 
 
 
+        [Route("UpdateEnableExamByStudentIDExamID")]
         public bool UpdateEnableExamByStudentIDExamID(decimal StudentID, decimal ExamID)
         {
             try
@@ -266,7 +318,7 @@ namespace NucleusExams.Controllers
 
         }
 
-
+        [Route("UpdateDisableExamByStudentIDExamID")]
         public bool UpdateDisableExamByStudentIDExamID(decimal StudentID, decimal ExamID)
         {
             try
@@ -291,6 +343,7 @@ namespace NucleusExams.Controllers
             }
         }
 
+        [Route("DeleteStudentEnrollment")]
 
         public bool DeleteStudentEnrollment(decimal StudentID, decimal ExamID)
         {

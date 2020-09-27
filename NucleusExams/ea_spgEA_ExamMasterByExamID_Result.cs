@@ -26,5 +26,6 @@ namespace NucleusExams
         public string ExamURL { get; set; }
         public Nullable<bool> ISActive { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
+        public string GradeName { get; set; }
     }
 }

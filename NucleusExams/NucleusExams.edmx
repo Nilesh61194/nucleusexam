@@ -31,6 +31,22 @@
           <Property Name="Answer" Type="nvarchar(max)" />
           <Property Name="QuestionNumber" Type="int" />
         </EntityType>
+        <EntityType Name="EA_ExamCommentScoreMaster">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExamID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="QID" Type="varchar" MaxLength="100" />
+          <Property Name="StudentID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="ScoreType" Type="varchar" MaxLength="50" />
+          <Property Name="ObtainScore" Type="varchar" MaxLength="50" />
+          <Property Name="CommentBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CommentDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="EA_ExamMaster">
           <Key>
             <PropertyRef Name="ExamID" />
@@ -48,6 +64,50 @@
           <Property Name="ExamURL" Type="nvarchar" MaxLength="500" />
           <Property Name="ISActive" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EA_ExamRightsMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExamID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="StaffID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsEdit" Type="bit" />
+          <Property Name="IsView" Type="bit" />
+          <Property Name="EntryBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EA_OptionMaster">
+          <Key>
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Name="OptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExamID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="QuestionID" Type="int" />
+          <Property Name="OptionValue" Type="varchar" MaxLength="300" />
+          <Property Name="IsRightAnswer" Type="bit" />
+          <Property Name="EntryBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EA_QuestionMaster">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExamID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="QuestionType" Type="varchar" MaxLength="100" />
+          <Property Name="QuestionMarks" Type="int" />
+          <Property Name="Question" Type="nvarchar(max)" />
+          <Property Name="EntryBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="EA_StaffRights">
           <Key>
@@ -56,9 +116,9 @@
           <Property Name="RightsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StaffID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ISRights" Type="bit" />
+          <Property Name="GivenDate" Type="datetime" />
           <Property Name="ISAdminRights" Type="bit" />
           <Property Name="AssignBy" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="GivenDate" Type="datetime" />
         </EntityType>
         <EntityType Name="EA_StudentEnrollment">
           <Key>
@@ -77,6 +137,8 @@
           <Property Name="AssignDate" Type="datetime" />
           <Property Name="ISExamEnable" Type="bit" />
           <Property Name="ISExamFinish" Type="bit" />
+          <Property Name="EntryBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="datetime" />
         </EntityType>
         <EntityType Name="EA_TeacherEnrollment">
           <Key>
@@ -86,6 +148,8 @@
           <Property Name="StaffID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ExamID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="AssignDate" Type="datetime" />
+          <Property Name="EntryBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Grade">
           <Key>
@@ -122,11 +186,12 @@
           <Property Name="SectionName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'INVENTORY.MDF.dbo.StudentCurrentGradeSectionDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'INVENTORY.dbo.StudentCurrentGradeSectionDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="StudentCurrentGradeSectionDetails">
           <Key>
             <PropertyRef Name="IsSpecialNeed" />
           </Key>
+          <Property Name="StudentID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="GradeID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="SectionID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" />
@@ -134,21 +199,20 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.StudentCurrentGradeSectionDetail
           <Property Name="GradeName" Type="varchar" MaxLength="50" />
           <Property Name="SectionName" Type="varchar" MaxLength="50" />
           <Property Name="IsVoid" Type="bit" />
-          <Property Name="StudentID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ProgramName" Type="varchar" MaxLength="50" />
           <Property Name="IsSpecialNeed" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="AcademicYearID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="IsDefault" Type="bit" />
           <Property Name="RollNo" Type="varchar" MaxLength="50" />
           <Property Name="EmergencyContactNo" Type="varchar" MaxLength="20" />
-          <Property Name="ConcentFlag" Type="bit" />
           <Property Name="StudentImage" Type="varchar(max)" />
           <Property Name="SchoolEmailID" Type="varchar" MaxLength="100" />
           <Property Name="MothersMobileNo" Type="varchar" MaxLength="20" />
           <Property Name="Gender" Type="bit" />
+          <Property Name="ConcentFlag" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'INVENTORY.dbo.WorkingStaffList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="WorkingStaffList">
           <Key>
             <PropertyRef Name="FullName" />
@@ -202,6 +266,7 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Name="IFSCCode" Type="varchar" MaxLength="50" />
           <Property Name="NameAsPerBankAccount" Type="varchar" MaxLength="200" />
           <Property Name="CompanyEntityName" Type="varchar" MaxLength="50" />
+          <Property Name="ReportingToName" Type="varchar" MaxLength="101" />
         </EntityType>
         <Function Name="ea_spdEA_ExamMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
@@ -223,12 +288,19 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
         <Function Name="ea_spgEA_ExamMasterByExamID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
         </Function>
-        <Function Name="ea_spgEA_StudentEnrollmentByExamID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="ea_spgEA_QuestionMasterByExamID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="ea_spgEA_QuestionMasterByExamIDStudentID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ExamID" Type="decimal" Mode="In" />
+          <Parameter Name="StudentID" Type="decimal" Mode="In" />
         </Function>
         <Function Name="ea_spgEA_StudentEnrollmentCheckExamActiveByStudentIDExamID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
           <Parameter Name="StudentID" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="ea_spgExamStartFinishStatuByExamID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ExamID" Type="decimal" Mode="In" />
         </Function>
         <Function Name="ea_spgStudentIDByMD5HashCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MD5HashCode" Type="nvarchar(max)" Mode="In" />
@@ -238,6 +310,15 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Parameter Name="StudentID" Type="decimal" Mode="In" />
           <Parameter Name="Answer" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="ea_spiEA_ExamCommentScoreMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ExamID" Type="decimal" Mode="In" />
+          <Parameter Name="QID" Type="varchar" Mode="In" />
+          <Parameter Name="StudentID" Type="decimal" Mode="In" />
+          <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ScoreType" Type="varchar" Mode="In" />
+          <Parameter Name="ObtainScore" Type="varchar" Mode="In" />
+          <Parameter Name="CommentBy" Type="decimal" Mode="In" />
         </Function>
         <Function Name="ea_spiEA_ExamMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExamName" Type="nvarchar" Mode="In" />
@@ -250,19 +331,15 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Parameter Name="ExamDate" Type="datetime" Mode="In" />
           <Parameter Name="ExamURL" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="ea_spiEA_StaffRights" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="StaffID" Type="decimal" Mode="In" />
-          <Parameter Name="ISRights" Type="bit" Mode="In" />
-          <Parameter Name="ISAdminRights" Type="bit" Mode="In" />
-          <Parameter Name="AssignBy" Type="decimal" Mode="In" />
-        </Function>
         <Function Name="ea_spiEA_StudentEnrollment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StudentID" Type="decimal" Mode="In" />
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
+          <Parameter Name="StaffID" Type="decimal" Mode="In" />
         </Function>
         <Function Name="ea_spiEA_TeacherEnrollment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StaffID" Type="decimal" Mode="In" />
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
+          <Parameter Name="EntryBy" Type="decimal" Mode="In" />
         </Function>
         <Function Name="ea_spuEA_ExamMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ExamID" Type="decimal" Mode="In" />
@@ -271,8 +348,6 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Parameter Name="SubjectName" Type="nvarchar" Mode="In" />
           <Parameter Name="Duration" Type="int" Mode="In" />
           <Parameter Name="CreatedBy" Type="decimal" Mode="In" />
-          <Parameter Name="ISExamCode" Type="bit" Mode="In" />
-          <Parameter Name="ExamCode" Type="varchar" Mode="In" />
           <Parameter Name="ExamDate" Type="datetime" Mode="In" />
           <Parameter Name="ExamURL" Type="nvarchar" Mode="In" />
         </Function>
@@ -290,7 +365,11 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
         <EntityContainer Name="INVENTORYMDFModelStoreContainer">
           <EntitySet Name="AcademicYear" EntityType="Self.AcademicYear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EA_ExamAnswerMaster" EntityType="Self.EA_ExamAnswerMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EA_ExamCommentScoreMaster" EntityType="Self.EA_ExamCommentScoreMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EA_ExamMaster" EntityType="Self.EA_ExamMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EA_ExamRightsMaster" EntityType="Self.EA_ExamRightsMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EA_OptionMaster" EntityType="Self.EA_OptionMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EA_QuestionMaster" EntityType="Self.EA_QuestionMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EA_StaffRights" EntityType="Self.EA_StaffRights" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EA_StudentEnrollment" EntityType="Self.EA_StudentEnrollment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EA_TeacherEnrollment" EntityType="Self.EA_TeacherEnrollment" Schema="dbo" store:Type="Tables" />
@@ -300,6 +379,7 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentCurrentGradeSectionDetails" EntityType="Self.StudentCurrentGradeSectionDetails" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [StudentCurrentGradeSectionDetails].[StudentID] AS [StudentID], 
     [StudentCurrentGradeSectionDetails].[GradeID] AS [GradeID], 
     [StudentCurrentGradeSectionDetails].[SectionID] AS [SectionID], 
     [StudentCurrentGradeSectionDetails].[FirstName] AS [FirstName], 
@@ -307,18 +387,17 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
     [StudentCurrentGradeSectionDetails].[GradeName] AS [GradeName], 
     [StudentCurrentGradeSectionDetails].[SectionName] AS [SectionName], 
     [StudentCurrentGradeSectionDetails].[IsVoid] AS [IsVoid], 
-    [StudentCurrentGradeSectionDetails].[StudentID] AS [StudentID], 
     [StudentCurrentGradeSectionDetails].[ProgramName] AS [ProgramName], 
     [StudentCurrentGradeSectionDetails].[IsSpecialNeed] AS [IsSpecialNeed], 
     [StudentCurrentGradeSectionDetails].[AcademicYearID] AS [AcademicYearID], 
     [StudentCurrentGradeSectionDetails].[IsDefault] AS [IsDefault], 
     [StudentCurrentGradeSectionDetails].[RollNo] AS [RollNo], 
     [StudentCurrentGradeSectionDetails].[EmergencyContactNo] AS [EmergencyContactNo], 
-    [StudentCurrentGradeSectionDetails].[ConcentFlag] AS [ConcentFlag], 
     [StudentCurrentGradeSectionDetails].[StudentImage] AS [StudentImage], 
     [StudentCurrentGradeSectionDetails].[SchoolEmailID] AS [SchoolEmailID], 
     [StudentCurrentGradeSectionDetails].[MothersMobileNo] AS [MothersMobileNo], 
-    [StudentCurrentGradeSectionDetails].[Gender] AS [Gender]
+    [StudentCurrentGradeSectionDetails].[Gender] AS [Gender], 
+    [StudentCurrentGradeSectionDetails].[ConcentFlag] AS [ConcentFlag]
     FROM [dbo].[StudentCurrentGradeSectionDetails] AS [StudentCurrentGradeSectionDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="WorkingStaffList" EntityType="Self.WorkingStaffList" store:Type="Views" store:Schema="dbo">
@@ -364,7 +443,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
     [WorkingStaffList].[BranchName] AS [BranchName], 
     [WorkingStaffList].[IFSCCode] AS [IFSCCode], 
     [WorkingStaffList].[NameAsPerBankAccount] AS [NameAsPerBankAccount], 
-    [WorkingStaffList].[CompanyEntityName] AS [CompanyEntityName]
+    [WorkingStaffList].[CompanyEntityName] AS [CompanyEntityName], 
+    [WorkingStaffList].[ReportingToName] AS [ReportingToName]
     FROM [dbo].[WorkingStaffList] AS [WorkingStaffList]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -397,13 +477,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
             <Parameter Name="SubjectName" Mode="In" Type="String" />
             <Parameter Name="Duration" Mode="In" Type="Int32" />
             <Parameter Name="CreatedBy" Mode="In" Type="Decimal" />
-            <Parameter Name="ISExamCode" Mode="In" Type="Boolean" />
-            <Parameter Name="ExamCode" Mode="In" Type="String" />
             <Parameter Name="ExamDate" Mode="In" Type="DateTime" />
             <Parameter Name="ExamURL" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="ea_spgEA_ExamMasterByExamID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_ExamMasterByExamID_Result)">
-          <Parameter Name="ExamID" Mode="In" Type="Decimal" />
           </FunctionImport>
           <EntitySet Name="WorkingStaffList" EntityType="INVENTORY.MDFModel.WorkingStaffList" />
           <EntitySet Name="AcademicYear" EntityType="INVENTORY.MDFModel.AcademicYear" />
@@ -417,11 +492,13 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <FunctionImport Name="ea_spiEA_StudentEnrollment">
             <Parameter Name="StudentID" Mode="In" Type="Decimal" />
             <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+            <Parameter Name="StaffID" Mode="In" Type="Decimal" />
           </FunctionImport>
           <EntitySet Name="EA_TeacherEnrollment" EntityType="INVENTORY.MDFModel.EA_TeacherEnrollment" />
           <FunctionImport Name="ea_spiEA_TeacherEnrollment">
             <Parameter Name="StaffID" Mode="In" Type="Decimal" />
             <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+            <Parameter Name="EntryBy" Mode="In" Type="Decimal" />
           </FunctionImport>
           <EntitySet Name="EA_ExamAnswerMaster" EntityType="INVENTORY.MDFModel.EA_ExamAnswerMaster" />
           <FunctionImport Name="ea_spiEA_ExamAnswerMaster">
@@ -462,7 +539,6 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
             <Parameter Name="StaffID" Mode="In" Type="Decimal" />
             <Parameter Name="ISRights" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <EntitySet Name="EA_StaffRights" EntityType="INVENTORY.MDFModel.EA_StaffRights" />
           <EntitySet Name="StudentCurrentGradeSectionDetails" EntityType="INVENTORY.MDFModel.StudentCurrentGradeSectionDetails" />
           <FunctionImport Name="ea_spgEA_StudentEnrollmentByExamID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_StudentEnrollmentByExamID_Result)">
           <Parameter Name="ExamID" Mode="In" Type="Decimal" />
@@ -473,6 +549,48 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
             <Parameter Name="ISAdminRights" Mode="In" Type="Boolean" />
             <Parameter Name="AssignBy" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="ea_spgEA_StudentEnrollmentandStatusByExamID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_StudentEnrollmentandStatusByExamID_Result)">
+          <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ea_spgExamStartFinishStatuByExamID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgExamStartFinishStatuByExamID_Result)">
+          <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="EA_ExamCommentScoreMaster" EntityType="INVENTORY.MDFModel.EA_ExamCommentScoreMaster" />
+          <FunctionImport Name="ea_spiEA_ExamCommentScoreMaster">
+            <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+            <Parameter Name="QID" Mode="In" Type="String" />
+            <Parameter Name="StudentID" Mode="In" Type="Decimal" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+            <Parameter Name="ScoreType" Mode="In" Type="String" />
+            <Parameter Name="ObtainScore" Mode="In" Type="String" />
+            <Parameter Name="CommentBy" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="EA_QuestionMaster" EntityType="INVENTORY.MDFModel.EA_QuestionMaster" />
+          <FunctionImport Name="ea_spgEA_QuestionMasterByExamID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_QuestionMasterByExamID_Result)">
+            <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="EA_StaffRights" EntityType="INVENTORY.MDFModel.EA_StaffRights" />
+          <EntitySet Name="EA_OptionMaster" EntityType="INVENTORY.MDFModel.EA_OptionMaster" />
+          <FunctionImport Name="ea_spgEA_QuestionMasterByExamID1" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_QuestionMasterByExamID1_Result)">
+          <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ea_spgEA_ExamMasterByExamID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_ExamMasterByExamID_Result)">
+          <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ea_spgEA_ExamMasterByStaffID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_ExamMasterByStaffID_Result)">
+            <Parameter Name="StaffID" Mode="In" Type="Int32" />
+            <Parameter Name="IsAdmin" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID_Result)">
+            <Parameter Name="GradeID" Mode="In" Type="Decimal" />
+            <Parameter Name="AcademicYearID" Mode="In" Type="Decimal" />
+            <Parameter Name="CreatedBy" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ea_spgEA_QuestionMasterByExamIDStudentID" ReturnType="Collection(INVENTORY.MDFModel.ea_spgEA_QuestionMasterByExamIDStudentID_Result)">
+            <Parameter Name="ExamID" Mode="In" Type="Decimal" />
+            <Parameter Name="StudentID" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="EA_ExamRightsMaster" EntityType="INVENTORY.MDFModel.EA_ExamRightsMaster" />
         </EntityContainer>
         <EntityType Name="EA_ExamMaster">
           <Key>
@@ -491,6 +609,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Name="ExamURL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ISActive" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Grade">
           <Key>
@@ -504,21 +624,6 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Name="BusEndShiftId" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <ComplexType Name="ea_spgEA_ExamMaster_Result">
-          <Property Type="Decimal" Name="ExamID" Nullable="false" Precision="18" Scale="0" />
-          <Property Type="String" Name="ExamName" Nullable="true" MaxLength="500" />
-          <Property Type="Decimal" Name="GradeID" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="AcademicYearID" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="SubjectName" Nullable="true" MaxLength="500" />
-          <Property Type="Int32" Name="Duration" Nullable="true" />
-          <Property Type="Decimal" Name="CreatedBy" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Boolean" Name="ISExamCode" Nullable="true" />
-          <Property Type="String" Name="ExamCode" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="ExamDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="ExamURL" Nullable="true" MaxLength="500" />
-          <Property Type="Boolean" Name="ISActive" Nullable="true" />
-          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="ea_spgEA_ExamMasterByExamID_Result">
           <Property Type="Decimal" Name="ExamID" Nullable="false" Precision="18" Scale="0" />
           <Property Type="String" Name="ExamName" Nullable="true" MaxLength="500" />
           <Property Type="Decimal" Name="GradeID" Nullable="true" Precision="18" Scale="0" />
@@ -586,6 +691,7 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Name="IFSCCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NameAsPerBankAccount" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="CompanyEntityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReportingToName" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AcademicYear">
           <Key>
@@ -645,6 +751,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Name="AssignDate" Type="DateTime" Precision="3" />
           <Property Name="ISExamEnable" Type="Boolean" />
           <Property Name="ISExamFinish" Type="Boolean" />
+          <Property Name="EntryBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="EA_TeacherEnrollment">
           <Key>
@@ -654,6 +762,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Name="StaffID" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ExamID" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="AssignDate" Type="DateTime" Precision="3" />
+          <Property Name="EntryBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="EA_ExamAnswerMaster">
           <Key>
@@ -695,17 +805,6 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Type="Decimal" Name="StaffID" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Boolean" Name="ISRights" Nullable="true" />
         </ComplexType>
-        <EntityType Name="EA_StaffRights">
-          <Key>
-            <PropertyRef Name="RightsID" />
-          </Key>
-          <Property Name="RightsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StaffID" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ISRights" Type="Boolean" />
-          <Property Name="GivenDate" Type="DateTime" Precision="3" />
-          <Property Name="ISAdminRights" Type="Boolean" />
-          <Property Name="AssignBy" Type="Decimal" Precision="18" Scale="0" />
-        </EntityType>
         <EntityType Name="StudentCurrentGradeSectionDetails">
           <Key>
             <PropertyRef Name="IsSpecialNeed" />
@@ -737,6 +836,153 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <Property Type="String" Name="ActualStartTime" Nullable="true" MaxLength="4000" />
           <Property Type="String" Name="ActualEndTime" Nullable="true" MaxLength="4000" />
         </ComplexType>
+        <ComplexType Name="ea_spgEA_StudentEnrollmentandStatusByExamID_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="101" />
+          <Property Type="String" Name="SectionName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="ISExamEnable" Nullable="true" />
+          <Property Type="Boolean" Name="ISExamFinish" Nullable="true" />
+          <Property Type="String" Name="ActualStartTime" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="ActualEndTime" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="ExamURL" Nullable="true" MaxLength="584" />
+        </ComplexType>
+        <ComplexType Name="ea_spgExamStartFinishStatuByExamID_Result">
+          <Property Type="Int32" Name="TotalStudent" Nullable="true" />
+          <Property Type="Int32" Name="StartExam" Nullable="true" />
+          <Property Type="Int32" Name="NotStartExam" Nullable="true" />
+          <Property Type="Int32" Name="FinishExam" Nullable="true" />
+          <Property Type="Int32" Name="NotFinishExam" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="EA_ExamCommentScoreMaster">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExamID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="QID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="StudentID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ScoreType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ObtainScore" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CommentBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CommentDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="EA_QuestionMaster">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExamID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="QuestionType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="QuestionMarks" Type="Int32" />
+          <Property Name="Question" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EntryBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="ea_spgEA_QuestionMasterByExamID_Result">
+          <Property Type="Int32" Name="QuestionID" Nullable="false" />
+          <Property Type="Decimal" Name="ExamID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="QuestionType" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionMarks" Nullable="true" />
+          <Property Type="String" Name="Question" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="EA_StaffRights">
+          <Key>
+            <PropertyRef Name="RightsID" />
+          </Key>
+          <Property Name="RightsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ISRights" Type="Boolean" />
+          <Property Name="GivenDate" Type="DateTime" Precision="3" />
+          <Property Name="ISAdminRights" Type="Boolean" />
+          <Property Name="AssignBy" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="EA_OptionMaster">
+          <Key>
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Name="OptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExamID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="OptionValue" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="IsRightAnswer" Type="Boolean" />
+          <Property Name="EntryBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="DateTime" Precision="3" />
+          <Property Name="QuestionID" Type="Int32" />
+          <Property Name="UpdatedBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="ea_spgEA_QuestionMasterByExamID1_Result">
+          <Property Type="Int32" Name="QuestionID" Nullable="false" />
+          <Property Type="Decimal" Name="ExamID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="QuestionType" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionMarks" Nullable="true" />
+          <Property Type="String" Name="Question" Nullable="true" />
+          <Property Type="String" Name="Options" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ea_spgEA_ExamMasterByExamID_Result">
+          <Property Type="Decimal" Name="ExamID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="ExamName" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="GradeID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="AcademicYearID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="SubjectName" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="Decimal" Name="CreatedBy" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Boolean" Name="ISExamCode" Nullable="true" />
+          <Property Type="String" Name="ExamCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ExamDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ExamURL" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="ISActive" Nullable="true" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ea_spgEA_ExamMasterByStaffID_Result">
+          <Property Type="Decimal" Name="ExamID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="ExamName" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="GradeID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="GradeName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="AcademicYearID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="SubjectName" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="Decimal" Name="CreatedBy" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Boolean" Name="ISExamCode" Nullable="true" />
+          <Property Type="String" Name="ExamCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ExamDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ExamURL" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="ISActive" Nullable="true" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="101" />
+        </ComplexType>
+        <ComplexType Name="ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID_Result">
+          <Property Type="Decimal" Name="ExamID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="ExamName" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="ea_spgEA_QuestionMasterByExamIDStudentID_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="QuestionID" Nullable="false" />
+          <Property Type="Decimal" Name="ExamID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="QuestionType" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionMarks" Nullable="true" />
+          <Property Type="String" Name="Question" Nullable="true" />
+          <Property Type="String" Name="Options" Nullable="true" />
+          <Property Type="String" Name="Answer" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="EA_ExamRightsMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExamID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="StaffID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsEdit" Type="Boolean" />
+          <Property Name="IsView" Type="Boolean" />
+          <Property Name="EntryBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EntryDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -746,6 +992,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <EntitySetMapping Name="EA_ExamMaster">
             <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_ExamMaster">
               <MappingFragment StoreEntitySet="EA_ExamMaster">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="ISActive" ColumnName="ISActive" />
                 <ScalarProperty Name="ExamURL" ColumnName="ExamURL" />
@@ -796,28 +1044,10 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ea_spuEA_ExamMaster" FunctionName="INVENTORY.MDFModel.Store.ea_spuEA_ExamMaster" />
-          <FunctionImportMapping FunctionImportName="ea_spgEA_ExamMasterByExamID" FunctionName="INVENTORY.MDFModel.Store.ea_spgEA_ExamMasterByExamID">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="INVENTORY.MDFModel.ea_spgEA_ExamMasterByExamID_Result">
-                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
-                <ScalarProperty Name="ExamName" ColumnName="ExamName" />
-                <ScalarProperty Name="GradeID" ColumnName="GradeID" />
-                <ScalarProperty Name="AcademicYearID" ColumnName="AcademicYearID" />
-                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ISExamCode" ColumnName="ISExamCode" />
-                <ScalarProperty Name="ExamCode" ColumnName="ExamCode" />
-                <ScalarProperty Name="ExamDate" ColumnName="ExamDate" />
-                <ScalarProperty Name="ExamURL" ColumnName="ExamURL" />
-                <ScalarProperty Name="ISActive" ColumnName="ISActive" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="WorkingStaffList">
             <EntityTypeMapping TypeName="INVENTORY.MDFModel.WorkingStaffList">
               <MappingFragment StoreEntitySet="WorkingStaffList">
+                <ScalarProperty Name="ReportingToName" ColumnName="ReportingToName" />
                 <ScalarProperty Name="CompanyEntityName" ColumnName="CompanyEntityName" />
                 <ScalarProperty Name="NameAsPerBankAccount" ColumnName="NameAsPerBankAccount" />
                 <ScalarProperty Name="IFSCCode" ColumnName="IFSCCode" />
@@ -915,6 +1145,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <EntitySetMapping Name="EA_StudentEnrollment">
             <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_StudentEnrollment">
               <MappingFragment StoreEntitySet="EA_StudentEnrollment">
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="EntryBy" ColumnName="EntryBy" />
                 <ScalarProperty Name="ISExamFinish" ColumnName="ISExamFinish" />
                 <ScalarProperty Name="ISExamEnable" ColumnName="ISExamEnable" />
                 <ScalarProperty Name="AssignDate" ColumnName="AssignDate" />
@@ -935,6 +1167,8 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
           <EntitySetMapping Name="EA_TeacherEnrollment">
             <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_TeacherEnrollment">
               <MappingFragment StoreEntitySet="EA_TeacherEnrollment">
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="EntryBy" ColumnName="EntryBy" />
                 <ScalarProperty Name="AssignDate" ColumnName="AssignDate" />
                 <ScalarProperty Name="ExamID" ColumnName="ExamID" />
                 <ScalarProperty Name="StaffID" ColumnName="StaffID" />
@@ -993,18 +1227,6 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="EA_StaffRights">
-            <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_StaffRights">
-              <MappingFragment StoreEntitySet="EA_StaffRights">
-                <ScalarProperty Name="AssignBy" ColumnName="AssignBy" />
-                <ScalarProperty Name="ISAdminRights" ColumnName="ISAdminRights" />
-                <ScalarProperty Name="GivenDate" ColumnName="GivenDate" />
-                <ScalarProperty Name="ISRights" ColumnName="ISRights" />
-                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
-                <ScalarProperty Name="RightsID" ColumnName="RightsID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="StudentCurrentGradeSectionDetails">
             <EntityTypeMapping TypeName="INVENTORY.MDFModel.StudentCurrentGradeSectionDetails">
               <MappingFragment StoreEntitySet="StudentCurrentGradeSectionDetails">
@@ -1030,18 +1252,138 @@ warning 6002: The table/view 'INVENTORY.MDF.dbo.WorkingStaffList' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="ea_spgEA_StudentEnrollmentByExamID" FunctionName="INVENTORY.MDFModel.Store.ea_spgEA_StudentEnrollmentByExamID">
+          <FunctionImportMapping FunctionImportName="ea_spgExamStartFinishStatuByExamID" FunctionName="INVENTORY.MDFModel.Store.ea_spgExamStartFinishStatuByExamID">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="INVENTORY.MDFModel.ea_spgEA_StudentEnrollmentByExamID_Result">
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="ISExamEnable" ColumnName="ISExamEnable" />
-                <ScalarProperty Name="ISExamFinish" ColumnName="ISExamFinish" />
-                <ScalarProperty Name="ActualStartTime" ColumnName="ActualStartTime" />
-                <ScalarProperty Name="ActualEndTime" ColumnName="ActualEndTime" />
+              <ComplexTypeMapping TypeName="INVENTORY.MDFModel.ea_spgExamStartFinishStatuByExamID_Result">
+                <ScalarProperty Name="TotalStudent" ColumnName="TotalStudent" />
+                <ScalarProperty Name="StartExam" ColumnName="StartExam" />
+                <ScalarProperty Name="NotStartExam" ColumnName="NotStartExam" />
+                <ScalarProperty Name="FinishExam" ColumnName="FinishExam" />
+                <ScalarProperty Name="NotFinishExam" ColumnName="NotFinishExam" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ea_spiEA_StaffRights" FunctionName="INVENTORY.MDFModel.Store.ea_spiEA_StaffRights" />
+          <EntitySetMapping Name="EA_ExamCommentScoreMaster">
+            <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_ExamCommentScoreMaster">
+              <MappingFragment StoreEntitySet="EA_ExamCommentScoreMaster">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="CommentBy" ColumnName="CommentBy" />
+                <ScalarProperty Name="ObtainScore" ColumnName="ObtainScore" />
+                <ScalarProperty Name="ScoreType" ColumnName="ScoreType" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="QID" ColumnName="QID" />
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ea_spiEA_ExamCommentScoreMaster" FunctionName="INVENTORY.MDFModel.Store.ea_spiEA_ExamCommentScoreMaster" />
+          <EntitySetMapping Name="EA_QuestionMaster">
+            <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_QuestionMaster">
+              <MappingFragment StoreEntitySet="EA_QuestionMaster">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="EntryBy" ColumnName="EntryBy" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="QuestionMarks" ColumnName="QuestionMarks" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EA_StaffRights">
+            <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_StaffRights">
+              <MappingFragment StoreEntitySet="EA_StaffRights">
+                <ScalarProperty Name="AssignBy" ColumnName="AssignBy" />
+                <ScalarProperty Name="ISAdminRights" ColumnName="ISAdminRights" />
+                <ScalarProperty Name="GivenDate" ColumnName="GivenDate" />
+                <ScalarProperty Name="ISRights" ColumnName="ISRights" />
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="RightsID" ColumnName="RightsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EA_OptionMaster">
+            <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_OptionMaster">
+              <MappingFragment StoreEntitySet="EA_OptionMaster">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="EntryBy" ColumnName="EntryBy" />
+                <ScalarProperty Name="IsRightAnswer" ColumnName="IsRightAnswer" />
+                <ScalarProperty Name="OptionValue" ColumnName="OptionValue" />
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ea_spgEA_QuestionMasterByExamID1" FunctionName="INVENTORY.MDFModel.Store.ea_spgEA_QuestionMasterByExamID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="INVENTORY.MDFModel.ea_spgEA_QuestionMasterByExamID1_Result">
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="QuestionMarks" ColumnName="QuestionMarks" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Options" ColumnName="Options" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ea_spgEA_ExamMasterByExamID" FunctionName="INVENTORY.MDFModel.Store.ea_spgEA_ExamMasterByExamID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="INVENTORY.MDFModel.ea_spgEA_ExamMasterByExamID_Result">
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="ExamName" ColumnName="ExamName" />
+                <ScalarProperty Name="GradeID" ColumnName="GradeID" />
+                <ScalarProperty Name="AcademicYearID" ColumnName="AcademicYearID" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ISExamCode" ColumnName="ISExamCode" />
+                <ScalarProperty Name="ExamCode" ColumnName="ExamCode" />
+                <ScalarProperty Name="ExamDate" ColumnName="ExamDate" />
+                <ScalarProperty Name="ExamURL" ColumnName="ExamURL" />
+                <ScalarProperty Name="ISActive" ColumnName="ISActive" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="GradeName" ColumnName="GradeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ea_spgEA_QuestionMasterByExamIDStudentID" FunctionName="INVENTORY.MDFModel.Store.ea_spgEA_QuestionMasterByExamIDStudentID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="INVENTORY.MDFModel.ea_spgEA_QuestionMasterByExamIDStudentID_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="QuestionMarks" ColumnName="QuestionMarks" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Options" ColumnName="Options" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="EA_ExamRightsMaster">
+            <EntityTypeMapping TypeName="INVENTORY.MDFModel.EA_ExamRightsMaster">
+              <MappingFragment StoreEntitySet="EA_ExamRightsMaster">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="EntryBy" ColumnName="EntryBy" />
+                <ScalarProperty Name="IsView" ColumnName="IsView" />
+                <ScalarProperty Name="IsEdit" ColumnName="IsEdit" />
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

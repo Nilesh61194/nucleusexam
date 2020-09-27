@@ -1,0 +1,1 @@
+{"result":{"text":"square root of 15 space plus space 15 end root\nbevelled fraction numerator 10 over denominator 5 space plus space square root of 15 end fraction\n10 to the power of 5 space plus space 154 subscript 2\nopen parentheses 10 space plus space 25 space equals space 40 close parentheses\ncube root of 10"},"status":"ok"}

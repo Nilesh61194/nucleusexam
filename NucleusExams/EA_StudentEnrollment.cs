@@ -27,5 +27,7 @@ namespace NucleusExams
         public Nullable<System.DateTime> AssignDate { get; set; }
         public Nullable<bool> ISExamEnable { get; set; }
         public Nullable<bool> ISExamFinish { get; set; }
+        public Nullable<decimal> EntryBy { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
     }
 }

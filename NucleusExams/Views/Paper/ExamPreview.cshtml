@@ -1,0 +1,223 @@
+﻿@model IEnumerable<NucleusExams.EA_QuestionMaster>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Exam Paper</title>
+    <link rel="Shortcut Icon" href="../../Images/Nucleus_16.png" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/ckeditor4/ckeditor.js"></script>
+    <link href="~/Content/all.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <style>
+        .CustomFontSize {
+            text-align: justify;
+            font-size: larger;
+            font-weight: bold;
+            background-color: #9fd8fb;
+        }
+
+        #load {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 9999;
+            background: url("../../Images/loading.gif") no-repeat center center rgba(0,0,0,0.25);
+            /*background: url("../../Images/Logo/Nucleus.gif") no-repeat center center rgba(0,0,0,0.25);*/
+        }
+
+        .CustomTopMargin {
+            margin-top: 1% !important;
+        }
+    </style>
+
+    <script>
+        document.onreadystatechange = function () {
+            var state = document.readyState
+            if (state == 'interactive') {
+                document.getElementById('contents').style.visibility = "hidden";
+            } else if (state == 'complete') {
+                setTimeout(function () {
+                    document.getElementById('interactive');
+                    document.getElementById('load').style.visibility = "hidden";
+                    document.getElementById('contents').style.visibility = "visible";
+                    //BindAnswer();
+                }, 1000);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="load"></div>
+    <div id="contents">
+        <div class="container" ng-app="" runat="server" id="divAll">
+
+            <div class="row col-md-12 col-lg-12 ">
+                <div class="float-left col-md-6 col-lg-6">
+                    <img src="~/Images/Logo/FS_Logo.png" />
+                </div>
+                <div class="col-md-6 col-lg-6" style="text-align: end">
+                    <label id="lblStudentHeaderName" Font-Bold="true">Student Name</label>
+                    <br />
+                    <label ID="lblTimer"></label>
+                    <input type="hidden" id="hfStudentID" value="" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-center">
+                    <strong>
+                        <label id="lblGradeSubjectName" Font-Bold="true">@ViewBag.GradeSubject</label>
+                    </strong>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2 text-right">
+                    @*<div class="row">
+                            <div class="col-md-6">
+                                <a class="fa fa-calculator fa-2x" onclick="return OpenWindow();" href="#"></a>
+                            </div>
+                            <div class="col-md-6">
+                                <a class="fa fa-tools fa-2x" href="http://idprm.ibo.org/m19.html#/English" target="_blank"></a>
+                                <br />
+                                <b>Source</b>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+
+        </div>
+        <div class="container" id="divQuestion">
+            @if (ViewBag.Question != null)
+            {
+                foreach (var item in ViewBag.Question)
+                {
+                    <input type="hidden" id="hfExamID" value="@item.ExamID" />
+
+
+                    if (item.QuestionType == "TextBox")
+                    {
+                        <div class="row">
+                            <div class="CustomFontSize form-control-custom col-md-12">
+                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                            </div>
+                            <div class="custome_col_md_12">
+                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                <input type="text" onkeypress="return event.keyCode!=13;" class="form-control CustomTopMargin" id="@id" style="width: 100%;" onfocus="return startAutoSave('@id');" onblur="return StopAutoSaveTextBox('@id');" />
+                            </div>
+                        </div>
+                                    }
+                                    else if (item.QuestionType == "Editor")
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                            </div>
+
+                                            <div class="custome_col_md_12 CustomTopMargin">
+                                                @*@Html.TextBoxFor(e => item.QuestionID)*@
+                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                @Html.TextBox(id)
+                                                <script type="text/javascript" lang="javascript">CKEDITOR.replace(@id);</script>
+                                            </div>
+                                        </div>
+                                                    }
+                                                    else if (item.QuestionType == "DropDown")
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                            </div>
+
+                                                            <div class="custome_col_md_12">
+                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                @{ string optionvalue = "Select Your Answer," + item.Options;
+                                                                    List<string> options = optionvalue.Split(',').ToList();
+
+                                                                }
+                                                                @Html.DropDownList(id, new SelectList(options), new { onchange = "SaveForDropdown(" + id + ")", Class = "form-control CustomTopMargin" })
+                                                            </div>
+                                                        </div>
+
+                                                                    }
+                                                                    else if (item.QuestionType == "CheckBox")
+                                                                    {
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                            </div>
+
+                                                                            <div class="custome_col_md_12">
+                                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                @{ string optionvalue = item.Options;
+                                                                                    List<string> options = optionvalue.Split(',').ToList();
+
+                                                                                }
+
+                                                                                @foreach (var val in options)
+                                                                                {
+                                                                                    <input id="@id" type="checkbox" value="@val" name="@id" onchange="return SaveForCheck('@id');" /> @val<br />
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                                    }
+                                                                                    else if (item.QuestionType == "RadioButton")
+                                                                                    {
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                                            </div>
+
+                                                                                            <div class="col-md-12">
+                                                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                                @{ string optionvalue = item.Options;
+                                                                                                    List<string> options = optionvalue.Split(',').ToList();
+
+                                                                                                }
+                                                                                                @foreach (var val in options)
+                                                                                                {
+                                                                                                    <input id="@id" type="radio" name="@id" value="@val" onchange="return SaveForRadio('@id');" /> @val <br />
+                                                                                                }
+                                                                                            </div>
+                                                                                        </div>
+                                                                                                    }
+
+                                                                                                    else if (item.QuestionType == "MediumTextBox")
+                                                                                                    {
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-12 form-control-custom CustomFontSize">
+                                                                                                                @Html.Raw(item.Question) (@item.QuestionMarks Marks)
+                                                                                                            </div>
+
+                                                                                                            <div class="custome_col_md_12">
+                                                                                                                @{ string id = "txtQuestion" + item.QuestionID;}
+                                                                                                                @*<input type="text" onkeypress="return event.keyCode!=13;" class="form-control CustomTopMargin" id="@id" style="width: 100%;" onfocus="return startAutoSave('@id');" onblur="return StopAutoSaveTextBox('@id');" />*@
+                                                                                                                <textarea class="form-control CustomTopMargin" rows="5" id="@id" style="width: 100%;" onfocus="return startAutoSave('@id');" onblur="return StopAutoSaveTextBox('@id');"></textarea>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                                    }
+
+                                                                                                                    <br />
+
+                                                                                                                        }
+                                                                                                                    }
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <input type="button" id="btnMainFinish" value="Finish Exam" class="btn btn-info" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
+

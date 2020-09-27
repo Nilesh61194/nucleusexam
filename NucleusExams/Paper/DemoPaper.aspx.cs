@@ -28,7 +28,8 @@ namespace NucleusExams.Paper
                 if (!IsPostBack)
                 {
                     divExamFinish.Visible = false;
-
+                    Session["SID"] = 841;
+                    Session["EID"] = 10;
                     if (Session["SID"] == null & Session["EID"] == null)
                     {
                         myCarousel.Visible = false;
@@ -112,7 +113,7 @@ namespace NucleusExams.Paper
             {
                 string url = Request.Url.AbsolutePath;
 
-                bool IsExamActive = objStudent.IsExamActiveByExamIDExamURL(ExamID, url);
+                bool IsExamActive = true;// objStudent.IsExamActiveByExamIDExamURL(ExamID, url);
 
                 if (!IsExamActive)
                 {
@@ -141,6 +142,7 @@ namespace NucleusExams.Paper
             //ChecRightsofExam(Convert.ToDecimal(ViewState["EID"]), Convert.ToDecimal(ViewState["SID"]));
             myCarousel.Visible = false;
             divExamFinish.Visible = true;
+            lblTimer.Visible = false;
         }
     }
 }

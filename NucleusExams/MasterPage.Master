@@ -79,26 +79,33 @@
             <div class="sidebar" id="sidebar">
                 <div class="sidebar-inner slimscroll">
                     <div id="sidebar-menu" class="sidebar-menu">
-                        <ul>
-                            <li class="menu-title">Main</li>
-                            <li runat="server" id="LiCreateExam">
-                                <asp:HyperLink ID="LnkCreateExam" runat="server" NavigateUrl="~/Home.aspx"><i class="fa fa-dashboard " aria-hidden="true"></i> Create Exam </asp:HyperLink>
-                            </li>
-                            <li runat="server" id="LiAssignToStudent">
-                                <asp:HyperLink ID="LnkAssignToStudent" runat="server" NavigateUrl="~/AssignToStudent.aspx"><i class="fa fa-user" aria-hidden="true"></i>Assign to Student</asp:HyperLink>
-                            </li>
-                            <li runat="server" id="LiAssignToTeacher">
-                                <asp:HyperLink ID="lnkAssignToTeacher" runat="server" NavigateUrl="~/AssignToTeacher.aspx"><i class="fa fa-user-secret" aria-hidden="true"></i>Assign to Teacher</asp:HyperLink>
-                            </li>
-                            <li runat="server" id="LiMyExam">
-                                <asp:HyperLink ID="LnkMyExam" runat="server" NavigateUrl="~/MyExam.aspx"><i class="fa fa-desktop" aria-hidden="true"></i>My Exam</asp:HyperLink>
-                            </li>
-                        </ul>
+                        <asp:UpdatePanel ID="updatepnl" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <ul>
+                                    <li class="menu-title">Main</li>
+                                    <li runat="server" id="LiCreateExam">
+                                        <asp:HyperLink ID="LnkCreateExam" runat="server" NavigateUrl="~/Home.aspx"><i class="fa fa-dashboard " aria-hidden="true"></i> Create Exam </asp:HyperLink>
+                                    </li>
+                                    <li runat="server" id="LiAssignToStudent">
+                                        <asp:HyperLink ID="LnkAssignToStudent" runat="server" NavigateUrl="~/AssignToStudent.aspx"><i class="fa fa-user" aria-hidden="true"></i>Assign to Student</asp:HyperLink>
+                                    </li>
+                                    <li runat="server" id="LiAssignToTeacher">
+                                        <asp:HyperLink ID="lnkAssignToTeacher" runat="server" NavigateUrl="~/AssignToTeacher.aspx"><i class="fa fa-user-secret" aria-hidden="true"></i>Assign to Teacher</asp:HyperLink>
+                                    </li>
+                                    <li runat="server" id="LiMyExam">
+                                        <asp:HyperLink ID="LnkMyExam" runat="server" NavigateUrl="~/MyExam.aspx"><i class="fa fa-desktop" aria-hidden="true"></i>My Exam</asp:HyperLink>
+                                    </li>
+                                </ul>
+                            </ContentTemplate>
+                            <Triggers>
+                                
+                            </Triggers>
+                        </asp:UpdatePanel>
                     </div>
                 </div>
             </div>
             <div class="page-wrapper">
-                <div class="content container-fluid">
+                <div class="container-fluid">
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>
 
@@ -106,7 +113,7 @@
             </div>
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
-        <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+        <%--<script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>--%>
         <script type="text/javascript" src="../assets/js/popper.min.js"></script>
         <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../assets/js/jquery.slimscroll.js"></script>

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'G:\NucleusExams_06_July_2019\NucleusExams\NucleusExams\NucleusExams.edmx'. 
+﻿// T4 code generation is enabled for model 'G:\Latest code for in wrost case\NucleusExams\NucleusExams\NucleusExams.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

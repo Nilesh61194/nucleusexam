@@ -1,0 +1,48 @@
+﻿<!--<!DOCTYPE html>
+<html>
+<head>
+    <title>Wiris MathType</title>
+    <meta charset="utf-8" />
+    <link rel="Shortcut Icon" href="Images/Nucleus_16.png" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/jquery.min.js"></script>
+    <script src="Scripts/bootstrap.min-3.4.0.js"></script>
+    <script src="ckeditor4/ckeditor.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h3><b>Write below equation in below textbox for practice</b></h3>
+            <img src="https://lh3.googleusercontent.com/proxy/h9Pe2ByQfDrpntEWZ6twl2v0czu8pFHZySeFQSgsJrViYo-J16Zd5eW9bw9e7OiQa6F2I4N_671F9NRKtFihbRU1eNfKwI1e2WJBhnFuBquJoA" alt="Image result for quadratic-functions-equations" />
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <textarea name="txtWiris" id="txtWiris"></textarea>
+                <script type="text/javascript" lang="javascript">CKEDITOR.replace('txtWiris');</script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>-->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <script src="https://www.wiris.net/demo/editor/editor"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        var editor;
+        window.onload = function () {
+            editor = com.wiris.jsEditor.JsEditor.newInstance({ 'language': 'en' });
+            editor.insertInto(document.getElementById('editorContainer'));
+            $('.wrs_formulaDisplay').css('height', '600px');
+        }
+    </script>
+</head>
+<body>
+    <div id="editorContainer" height="600px"></div>
+</body>
+</html>

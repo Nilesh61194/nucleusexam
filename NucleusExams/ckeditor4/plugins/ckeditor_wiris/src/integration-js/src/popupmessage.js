@@ -34,7 +34,13 @@ export default class PopUpMessage {
     this.message = this.overlayWrapper.appendChild(document.createElement('div'));
     this.message.id = 'wrs_popupmessage';
     this.message.setAttribute('class', 'wrs_popupmessage_panel');
-    this.message.innerHTML = popupMessageAttributes.strings.message;
+    this.message.setAttribute('role', 'dialog');
+    this.message.setAttribute('aria-describedby', 'description_txt');
+    const paragraph = document.createElement('p');
+    const text = document.createTextNode(popupMessageAttributes.strings.message);
+    paragraph.appendChild(text);
+    paragraph.id = 'description_txt';
+    this.message.appendChild(paragraph);
 
     /**
      * HTML element overlaying the overlayElement.
@@ -107,10 +113,8 @@ export default class PopUpMessage {
     if (this.overlayWrapper.style.display !== 'block') {
       // Clear focus with blur for prevent press any key.
       document.activeElement.blur();
-
-      // For works with Safari.
-      window.focus();
       this.overlayWrapper.style.display = 'block';
+      this.closeButton.focus();
     } else {
       this.overlayWrapper.style.display = 'none';
       _wrs_modalWindow.focus();
@@ -144,7 +148,7 @@ export default class PopUpMessage {
    * @param {KeyboardEvent} keyboardEvent - The keyboard event.
    */
   onKeyDown(keyboardEvent) {
-    if (keyboardEvent.key !== undefined && keyboardEvent.repeat === false) {
+    if (keyboardEvent.key !== undefined) {
       // Code to detect Esc event.
       if (keyboardEvent.key === 'Escape' || keyboardEvent.key === 'Esc') {
         this.cancelAction();

@@ -15,35 +15,44 @@ namespace NucleusExams
         DataTable dt = new DataTable();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            try
             {
-                if (Session["shEmail"] != null && Session["UserType"].ToString() == "Staff")
+                if (!IsPostBack)
                 {
-                    dt = objExam.GetAcademicYearForExamMaster();
-                    if (dt.Rows.Count > 0)
-                    {
-                        ddlAcademicYear.DataSource = dt;
-                        ddlAcademicYear.DataValueField = "AcademicYearID";
-                        ddlAcademicYear.DataTextField = "AcademicYear1";
-                        ddlAcademicYear.DataBind();
-                        ddlAcademicYear.Items.Insert(0, "Select Academic Year");
-                    }
 
-                    dt = objExam.GetWorkingStaffList();
-                    if (dt.Rows.Count > 0)
+                    if (Session["shEmail"] != null && Session["UserType"].ToString() == "Staff")
                     {
-                        ddlTeacher.DataSource = dt;
-                        ddlTeacher.DataValueField = "StaffMasterID";
-                        ddlTeacher.DataTextField = "FullName";
-                        ddlTeacher.DataBind();
-                        ddlTeacher.Items.Insert(0, "Select Teacher");
-                    }
+                        hfloggedInStaffID.Value = Session["StaffID"].ToString();
+                        dt = objExam.GetAcademicYearForExamMaster();
+                        if (dt.Rows.Count > 0)
+                        {
+                            ddlAcademicYear.DataSource = dt;
+                            ddlAcademicYear.DataValueField = "AcademicYearID";
+                            ddlAcademicYear.DataTextField = "AcademicYear1";
+                            ddlAcademicYear.DataBind();
+                            ddlAcademicYear.Items.Insert(0, "Select Academic Year");
+                        }
 
+                        dt = objExam.GetWorkingStaffList();
+                        if (dt.Rows.Count > 0)
+                        {
+                            ddlTeacher.DataSource = dt;
+                            ddlTeacher.DataValueField = "StaffMasterID";
+                            ddlTeacher.DataTextField = "FullName";
+                            ddlTeacher.DataBind();
+                            ddlTeacher.Items.Insert(0, "Select Teacher");
+                        }
+
+                    }
+                    else
+                    {
+                        Response.Redirect("~/Login.aspx");
+                    }
                 }
-                else
-                {
-                    Response.Redirect("~/Login.aspx");
-                }
+            }
+            catch
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "closeScript", "error();", true);
             }
         }
 
@@ -58,11 +67,12 @@ namespace NucleusExams
                 {
                     decimal examID = Convert.ToDecimal(ddlExam.SelectedValue);
 
+                    // for each loop used when select multiple teacher 
                     foreach (Telerik.Web.UI.RadComboBoxItem item in ddlTeacher.CheckedItems)
                     {
                         decimal staffID = Convert.ToDecimal(item.Value);
 
-                        objExam.insertEA_TeacherEnrollment(staffID, examID);
+                        objExam.insertEA_TeacherEnrollment(staffID, examID, Convert.ToDecimal(hfloggedInStaffID.Value));
                     }
 
                     ScriptManager.RegisterStartupScript(Page, typeof(Page), "closeScript", "AssignSuccess();", true);
@@ -75,44 +85,58 @@ namespace NucleusExams
             }
             catch
             {
-
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "closeScript", "error();", true);
             }
         }
 
         protected void ddlAcademicYear_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ddlAcademicYear.SelectedIndex != 0)
+            try
             {
-                dt = objExam.GetGradeDetailByExamID(Convert.ToInt32(ddlAcademicYear.SelectedItem.Value));
-                ddlGrade.DataSource = dt;
-                ddlGrade.DataValueField = "GradeID";
-                ddlGrade.DataTextField = "GradeName";
-                ddlGrade.DataBind();
-                ddlGrade.Items.Insert(0, "Select Grade");
+                if (ddlAcademicYear.SelectedIndex != 0)
+                {
+                    dt = objExam.GetGradeDetailByExamID(Convert.ToInt32(ddlAcademicYear.SelectedItem.Value));
+                    ddlGrade.DataSource = dt;
+                    ddlGrade.DataValueField = "GradeID";
+                    ddlGrade.DataTextField = "GradeName";
+                    ddlGrade.DataBind();
+                    ddlGrade.Items.Insert(0, "Select Grade");
 
+                }
+                else
+                {
+                    ddlGrade.Items.Clear();
+                    ddlExam.Items.Clear();
+                }
             }
-            else
+            catch
             {
-                ddlGrade.Items.Clear();
-                ddlExam.Items.Clear();
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "closeScript", "error();", true);
             }
         }
 
         protected void ddlGrade_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ddlGrade.SelectedIndex != 0)
+            try
             {
-                dt = objExam.GetExamDetailByGradeID(Convert.ToInt32(ddlGrade.SelectedItem.Value));
-                ddlExam.DataSource = dt;
-                ddlExam.DataValueField = "ExamID";
-                ddlExam.DataTextField = "ExamName";
-                ddlExam.DataBind();
-                ddlExam.Items.Insert(0, "Select Exam");
+                if (ddlGrade.SelectedIndex != 0)
+                {
+                    dt = objExam.GetExamDetailByGradeID(Convert.ToDecimal(ddlGrade.SelectedItem.Value), Convert.ToDecimal(ddlAcademicYear.SelectedItem.Value), Convert.ToDecimal(hfloggedInStaffID.Value));
+                    ddlExam.DataSource = dt;
+                    ddlExam.DataValueField = "ExamID";
+                    ddlExam.DataTextField = "ExamName";
+                    ddlExam.DataBind();
+                    ddlExam.Items.Insert(0, "Select Exam");
+                }
+                else
+                {
+                    ddlExam.Items.Clear();
+                    ddlGrade.Items.Clear();
+                }
             }
-            else
+            catch
             {
-                ddlExam.Items.Clear();
-                ddlGrade.Items.Clear();
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "closeScript", "error();", true);
             }
         }
     }

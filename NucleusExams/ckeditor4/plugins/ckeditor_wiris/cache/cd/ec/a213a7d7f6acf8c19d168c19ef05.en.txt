@@ -1,0 +1,1 @@
+{"result":{"text":"4 square root of 10\n10 over 5"},"status":"ok"}

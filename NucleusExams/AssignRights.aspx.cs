@@ -42,6 +42,7 @@ namespace NucleusExams
             bool status = false;
             try
             {
+                // check of selected staff count or give validation msg
 
                 int count = cboStaffList.CheckedItems.Count;
                 if (count > 0)
@@ -80,7 +81,7 @@ namespace NucleusExams
             try
             {
                 dt = objExam.getEA_StaffRights();
-                if(dt.Rows.Count>0)
+                if (dt.Rows.Count > 0)
                 {
                     gvExamMaster.DataSource = dt;
                     gvExamMaster.DataBind();
@@ -88,7 +89,7 @@ namespace NucleusExams
             }
             catch
             {
-
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "closeScript", "error();", true);
             }
         }
     }

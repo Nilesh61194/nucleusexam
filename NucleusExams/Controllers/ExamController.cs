@@ -8,6 +8,9 @@ using NucleusExams.Models;
 using System.Data;
 using System.Reflection;
 using System.Web.Http.Results;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace NucleusExams.Controllers
 {
@@ -54,7 +57,8 @@ namespace NucleusExams.Controllers
             {
                 using (dbEntities entities = new dbEntities())
                 {
-                    int i = entities.ea_spuEA_ExamMaster(Exm.ExamID, Exm.ExamName, Exm.GradeID, Exm.SubjectName, Exm.Duration, Exm.CreatedBy, Exm.ISExamCode, Exm.ExamCode, Exm.ExamDate, Exm.ExamURL);
+                    int i = entities.ea_spuEA_ExamMaster(Exm.ExamID, Exm.ExamName, Exm.GradeID, Exm.SubjectName, Exm.Duration, Exm.CreatedBy, Exm.ExamDate, Exm.ExamURL);
+
 
                     if (i > 0)
                     {
@@ -80,7 +84,9 @@ namespace NucleusExams.Controllers
             {
                 using (dbEntities entities = new dbEntities())
                 {
-                    int i = (from es in entities.EA_StudentEnrollment where es.StudentID == StudentID && es.ExamID == ExamID select es).Count();
+                    int i = (from es in entities.EA_StudentEnrollment
+                             where es.StudentID == StudentID && es.ExamID == ExamID
+                             select es).Count();
 
                     if (i > 0)
                     {
@@ -100,8 +106,16 @@ namespace NucleusExams.Controllers
             }
         }
 
+        public DataTable GetExamDetailsByStaffID(int StaffID, bool IsAdmin)
+        {
+            using (dbEntities entities = new dbEntities())
+            {
 
+                DataTable dt = new DataTable();
+                return dt = ToDataTable(entities.ea_spgEA_ExamMasterByStaffID(StaffID, IsAdmin).ToList());
 
+            }
+        }
         public IEnumerable<Grade> GetGradeList()
         {
             try
@@ -205,13 +219,13 @@ namespace NucleusExams.Controllers
 
 
 
-        public decimal getExamIdOfActiveExam()
+        public decimal getExamIdOfActiveExam(decimal GradeID)
         {
             try
             {
                 using (dbEntities entities = new dbEntities())
                 {
-                    return Convert.ToDecimal(entities.EA_ExamMaster.Where(e => e.ISActive == true).Select(e => e.ExamID).Single());
+                    return Convert.ToDecimal(entities.EA_ExamMaster.Where(e => e.ISActive == true && e.GradeID == GradeID).Select(e => e.ExamID).Single());
                 }
             }
             catch (Exception ex)
@@ -221,6 +235,42 @@ namespace NucleusExams.Controllers
             }
         }
         #endregion
+
+
+        [HttpGet]
+        [Route("CheckEditRightsOnExambyExamIDStaffID")]
+        public bool CheckEditRightsOnExambyExamIDStaffID(decimal ExamID, decimal CreatedBy)
+        {
+            try
+            {
+                using (dbEntities entities = new dbEntities())
+                {
+                    var data = entities.EA_ExamMaster.Where(e => e.CreatedBy == CreatedBy && e.ExamID == ExamID).FirstOrDefault();
+                    if (data != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        var Edit = entities.EA_ExamRightsMaster.Where(m => m.StaffID == CreatedBy && m.ExamID == ExamID && m.IsEdit == true).FirstOrDefault();
+                        if (Edit != null)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return false;
+            }
+        }
+
 
         [HttpGet]
         [Route("GetAcademicYear")]
@@ -234,6 +284,8 @@ namespace NucleusExams.Controllers
                                   join AY in entities.AcademicYear
                                   on EM.AcademicYearID equals AY.AcademicYearID
                                   select new { AY.AcademicYearID, AY.AcademicYear1 }).Distinct().ToList();
+
+
                     return ToDataTable(result);
                 }
             }
@@ -246,14 +298,14 @@ namespace NucleusExams.Controllers
 
         [HttpGet]
         [Route("GetExamDetailByGradeID")]
-        public DataTable GetExamDetailByGradeID(int GradeID)
+        public DataTable GetExamDetailByGradeID(decimal GradeID, decimal AcademicYearID, decimal StaffID)
         {
             try
             {
                 using (dbEntities entities = new dbEntities())
                 {
-                    var result = entities.EA_ExamMaster.Where(e => e.GradeID == GradeID).
-                        Select(e => new { e.ExamID, e.ExamName }).ToList();
+                    var result = entities.ea_spgEA_ExamMasterByStaffIdGradeIdAcademicYearID(GradeID, AcademicYearID, StaffID).ToList();
+
                     return ToDataTable(result);
                 }
             }
@@ -332,13 +384,13 @@ namespace NucleusExams.Controllers
 
         [HttpPost]
         [Route("insertEA_StudentEnrollment")]
-        public bool insertEA_StudentEnrollment(decimal StudentID, decimal ExamID)
+        public bool insertEA_StudentEnrollment(decimal StudentID, decimal ExamID, decimal StaffID)
         {
             try
             {
                 using (dbEntities entities = new dbEntities())
                 {
-                    var result = entities.ea_spiEA_StudentEnrollment(StudentID, ExamID);
+                    var result = entities.ea_spiEA_StudentEnrollment(StudentID, ExamID, StaffID);
                     if (result > 0)
                     {
                         return true;
@@ -377,13 +429,13 @@ namespace NucleusExams.Controllers
 
         [HttpPost]
         [Route("insertEA_TeacherEnrollment")]
-        public bool insertEA_TeacherEnrollment(decimal StaffID, decimal ExamID)
+        public bool insertEA_TeacherEnrollment(decimal StaffID, decimal ExamID, decimal EntryBy)
         {
             try
             {
                 using (dbEntities entities = new dbEntities())
                 {
-                    var result = entities.ea_spiEA_TeacherEnrollment(StaffID, ExamID);
+                    var result = entities.ea_spiEA_TeacherEnrollment(StaffID, ExamID, EntryBy);
                     if (result > 0)
                     {
                         return true;
@@ -409,15 +461,24 @@ namespace NucleusExams.Controllers
             {
                 using (dbEntities entities = new dbEntities())
                 {
-                    var result = entities.ea_spiEA_ExamAnswerMaster(EAM.QID, EAM.StudentID, EAM.Answer, EAM.ExamID);
-
-                    if (result > 0)
+                    if (string.IsNullOrEmpty(EAM.Answer.ToString()))
                     {
                         return true;
                     }
                     else
                     {
-                        return false;
+
+                        var result = entities.ea_spiEA_ExamAnswerMaster(EAM.QID, EAM.StudentID, EAM.Answer, EAM.ExamID);
+
+                        if (result > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
                     }
                 }
             }
@@ -439,6 +500,34 @@ namespace NucleusExams.Controllers
                     var result = entities.ea_spgEA_ExamAnswerMasterByStudentIDExamID(StudentID, ExamID).ToList();
                     ///string result =  entities.EA_ExamAnswerMaster.Where(e => e.QID == QID && e.StudentID == StudentID && e.ExamID == ExamID).Select(e => e.Answer).ToString();
                     return ToDataTable(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return null;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("getEA_ExamAnswerMasterByStudentIDExamID")]
+        public string getEA_ExamAnswerMasterByStudentIDExamID(decimal StudentID, decimal ExamID)
+        {
+            try
+            {
+                using (dbEntities entities = new dbEntities())
+                {
+                    var result = (from AM in entities.EA_ExamAnswerMaster
+                                  from QM in entities.EA_QuestionMaster.Where(x => AM.ExamID == x.ExamID && x.QuestionID == AM.QuestionNumber && AM.StudentID == StudentID && AM.ExamID == ExamID)
+                                  orderby AM.QuestionNumber
+                                  select new { QM.QuestionType, AM.QID, AM.Answer }).ToList();
+
+
+                    var json = new JavaScriptSerializer().Serialize(result);
+
+                    return json;
+
 
                 }
             }
@@ -448,6 +537,10 @@ namespace NucleusExams.Controllers
                 return null;
             }
         }
+
+
+
+
 
         public DataTable getLogInStaffDetailsByEmailID(string EmailID)
         {
@@ -510,6 +603,34 @@ namespace NucleusExams.Controllers
             }
         }
 
+
+
+        public string GetAnswerByExamIDStudentIDQuestionID(decimal ExamID, decimal StudentID, string QuestionID)
+        {
+            try
+            {
+                using (dbEntities entities = new dbEntities())
+                {
+                    string result = entities.EA_ExamAnswerMaster.Where(x => x.ExamID == ExamID && x.StudentID == StudentID && x.QID == QuestionID).Select(x => x.Answer).Single().ToString();
+
+                    if (result != "")
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return "";
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return "";
+            }
+        }
+
         public DataTable getEA_StaffRights()
         {
             try
@@ -558,5 +679,63 @@ namespace NucleusExams.Controllers
         }
 
 
+
+        // Code for commet and marks 
+
+        #region Code For Comment and Marks
+
+        [HttpPost]
+        [Route("insertEA_ExamCommentScoreMaster")]
+        public bool insertEA_ExamCommentScoreMaster(EA_ExamCommentScoreMaster ECS)
+        {
+            try
+            {
+                using (dbEntities entities = new dbEntities())
+                {
+                    var result = entities.ea_spiEA_ExamCommentScoreMaster(ECS.ExamID, ECS.QID, ECS.StudentID, ECS.Comment, ECS.ScoreType, ECS.ObtainScore, ECS.CommentBy);
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return false;
+            }
+        }
+
+        [HttpGet]
+        [Route("getEA_ExamCommentScoreMasterStudentIDExamID")]
+        public string getEA_ExamCommentScoreMasterStudentIDExamID(decimal StudentID, decimal ExamID)
+        {
+            try
+            {
+                using (dbEntities entities = new dbEntities())
+                {
+                    var result = entities.EA_ExamCommentScoreMaster.Where(e => e.StudentID == StudentID && e.ExamID == ExamID).ToList();
+                    var json = new JavaScriptSerializer().Serialize(result);
+                    return json;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return null;
+            }
+        }
+
+
+        #endregion
+
     }
+
 }

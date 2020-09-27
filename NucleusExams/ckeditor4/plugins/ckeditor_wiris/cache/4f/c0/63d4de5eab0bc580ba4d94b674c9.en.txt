@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator 10 space plus space 5 space over denominator 12 end fraction space plus space square root of 10 space end root\nbevelled 10 over 4 space plus space fifth root of 10\nbevelled 10 over 5\n"},"status":"ok"}

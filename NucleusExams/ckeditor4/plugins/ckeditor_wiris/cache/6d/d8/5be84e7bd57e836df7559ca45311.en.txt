@@ -1,1 +1,0 @@
-{"result":{"text":"square root of 10 space plus space fifth root of 10 end root"},"status":"ok"}

@@ -15,6 +15,7 @@ namespace NucleusExams.Paper
         StudentController objStudent = new StudentController();
         DataTable dt = new DataTable();
         protected void Page_Load(object sender, EventArgs e)
+
         {
             try
             {
@@ -45,6 +46,7 @@ namespace NucleusExams.Paper
                         }
                         else
                         {
+                            // if querystring is not null then get value in session 
 
                             Session["SID"] = objStudent.GetStudentIDByMD5HashCode(Request.QueryString["SID"]);
                             hfStudentID.Value = Session["SID"].ToString();
@@ -54,10 +56,11 @@ namespace NucleusExams.Paper
                             ChecRightsofExam(ExamID, StudentID);
                         }
                     }
-
                 }
                 else
                 {
+                    // get data from querystring and check right of exam 
+
                     decimal ExamID = Convert.ToDecimal(Request.QueryString["EID"]);
                     decimal StudentID = objStudent.GetStudentIDByMD5HashCode(Request.QueryString["SID"]);
                     ChecRightsofExam(ExamID, StudentID);
@@ -75,14 +78,21 @@ namespace NucleusExams.Paper
         {
             try
             {
+                // first check exam active or not 
+
                 bool IsExamActive = objStudent.IsExamActiveByExamID(ExamID);
 
                 if (IsExamActive)
                 {
+                    // check exam active for student or not 
+
                     bool IsExamActiveForStudent = objStudent.IsExamActiveByExamIDStudentID(ExamID, StudentID);
                     if (IsExamActiveForStudent)
                     {
+
                         DataTable dt = new DataTable();
+                        // get stundet details by suing student id 
+
                         dt = objStudent.GetStudentDetailsByStudentID(StudentID);
 
                         if (dt.Rows.Count > 0)
@@ -93,20 +103,28 @@ namespace NucleusExams.Paper
                             lblRollNo.Text = dt.Rows[0]["RollNo"].ToString();
                             lblStudentHeaderName.Text = lblSTudentName.Text;
                             Session["StudentName"] = lblSTudentName.Text;
+
                             dt.Clear();
                         }
+
+                        // get exam details by using exam id 
 
                         dt = objExam.GetExamByExamID(ExamID);
 
                         if (dt.Rows.Count > 0)
                         {
                             lblSubjectName.Text = dt.Rows[0]["SubjectName"].ToString();
-                            lblDuration.Text = dt.Rows[0]["Duration"].ToString();
+                            lblDuration.Text = dt.Rows[0]["Duration"].ToString() + " " + "Minute";
+                            Session["TotalDuration"] = dt.Rows[0]["Duration"].ToString();
                             Session["AccessCode"] = dt.Rows[0]["ExamCode"];
                         }
 
+
                         Session["GradeSubjectName"] = lblGradeName.Text + " : " + lblSubjectName.Text;
                         lblGradeSubjectName.Text = Session["GradeSubjectName"].ToString();
+
+                        // check here exam start by student or not 
+                        // if start then student will navigate to exam page or else stay this page only 
 
                         bool IsExamStartByStudent = objStudent.IsExamStartByStudent(ExamID, StudentID);
                         if (IsExamStartByStudent)
@@ -115,12 +133,17 @@ namespace NucleusExams.Paper
                             divExamError.Visible = false;
                             divExamFinish.Visible = false;
                             Session["ExamTimer"] = objStudent.getExamStartTimeByStudent(ExamID, StudentID);
-                            Response.Redirect("DemoPaper.aspx");
+
+                            string URL = objStudent.GetExamURlByExamID(Convert.ToDecimal(Session["EID"]));
+                            // Response.Redirect("~/Paper/GetPaper");
+                            Response.Redirect(URL + "?SID=" + Request.QueryString["SID"] + "&EID=" + Request.QueryString["EID"] + "");
                         }
 
                     }
                     else
                     {
+                        // hide when exam not active for student  
+
                         divPreInstruction.Visible = false;
                         divExamError.Visible = false;
                         divExamFinish.Visible = true;
@@ -128,6 +151,8 @@ namespace NucleusExams.Paper
                 }
                 else
                 {
+                    // hide when exam is not active 
+
                     divPreInstruction.Visible = false;
                     divExamError.Visible = false;
                     divExamFinish.Visible = false;
@@ -145,15 +170,28 @@ namespace NucleusExams.Paper
         {
             try
             {
+                // on basis of exam id get acces code from db 
+
+
                 decimal Code = Convert.ToDecimal(Session["AccessCode"]);
+
+                // check access code with student entered code 
+
                 if (Code == Convert.ToDecimal(txtAccessToken.Text))
                 {
-                    objStudent.UpdateExamStartTimeByExamIDStudentID(Convert.ToDecimal(Session["EID"]), Convert.ToDecimal(Session["SID"]));
+                    // if match then start is start and navidate to exam page 
+                    EA_StudentEnrollment obj = new EA_StudentEnrollment();
+                    obj.StudentID = Convert.ToDecimal(Session["SID"]);
+                    obj.ExamID = Convert.ToDecimal(Session["EID"]);
+                    objStudent.UpdateExamStartTimeByExamIDStudentID(obj);
                     Session["ExamTimer"] = System.DateTime.Now;
-                    Response.Redirect("DemoPaper.aspx");
+
+                    string URL = objStudent.GetExamURlByExamID(Convert.ToDecimal(Session["EID"]));
+                    Response.Redirect(URL + "?SID=" + Request.QueryString["SID"] + "&EID=" + Request.QueryString["EID"] + "");
                 }
                 else
                 {
+                    // call function when call wrong entered code 
                     ScriptManager.RegisterStartupScript(Page, typeof(Page), "closeScript", "WrongAccessCode();", true);
                 }
             }
